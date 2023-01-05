@@ -1,4 +1,5 @@
 import { Grid } from "@mui/material";
+import SideImageLayout from "../layouts/SideImageLayout";
 
 const LoginPage = () => {
   return (
