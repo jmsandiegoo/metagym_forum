@@ -30,7 +30,7 @@ const LandingPage = () => {
           <Button component={Link} to="/auth/login" variant="contained">
             Login
           </Button>
-          <Button variant="outlined">Signup</Button>
+          <Button variant="outlined">Sign up</Button>
         </Stack>
       </Stack>
     </SideImageLayout>
