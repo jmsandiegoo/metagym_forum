@@ -9,6 +9,7 @@ const LandingPage = () => {
   return (
     <SideImageLayout
       isInverted={false}
+      spacing={2}
       imgAlt={"man doing pull ups"}
       imgSrc={login_landing_img}
     >

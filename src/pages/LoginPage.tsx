@@ -7,6 +7,7 @@ const LoginPage = () => {
   return (
     <SideImageLayout
       isInverted={false}
+      spacing={15}
       imgAlt={"A man doing pull ups"}
       imgSrc={login_landing_img}
     >

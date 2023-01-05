@@ -16,7 +16,7 @@ import PasswordInput from "./PasswordInput";
 const LoginForm = () => {
   return (
     <Box component="form" maxWidth="60%">
-      <Stack spacing={5}>
+      <Stack spacing={2}>
         <Box pt={15}>
           <Img
             src={logo_img}
@@ -27,7 +27,9 @@ const LoginForm = () => {
         </Box>
         <Box pt={10} pb={5}>
           <Typography variant="h1">Login to your account</Typography>
-          <Typography>Welcome back! Please enter your details.</Typography>
+          <Typography mt={1}>
+            Welcome back! Please enter your details.
+          </Typography>
         </Box>
 
         <TextField
@@ -38,7 +40,7 @@ const LoginForm = () => {
             shrink: true,
           }}
         />
-        <PasswordInput />
+        <PasswordInput label="Password" />
         <Link
           component={RouterLink}
           variant="body2"
@@ -47,20 +49,25 @@ const LoginForm = () => {
         >
           Forgot Password
         </Link>
-        <Button variant="contained" sx={{ alignSelf: "center" }}>
-          Login
-        </Button>
-        <Typography variant="body2" textAlign="center">
-          Don’t have an account?{" "}
-          <Link
-            component={RouterLink}
-            variant="body2"
-            to="/auth/signup"
-            sx={{ alignSelf: "flex-end" }}
+        <Box textAlign="center">
+          <Button
+            variant="contained"
+            sx={{ alignSelf: "center", mt: 5, mb: 2 }}
           >
-            Sign up
-          </Link>
-        </Typography>
+            Login
+          </Button>
+          <Typography variant="body2" textAlign="center">
+            Don’t have an account?{" "}
+            <Link
+              component={RouterLink}
+              variant="body2"
+              to="/auth/signup"
+              sx={{ alignSelf: "flex-end" }}
+            >
+              Sign up
+            </Link>
+          </Typography>
+        </Box>
       </Stack>
     </Box>
   );

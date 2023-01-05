@@ -5,6 +5,7 @@ import Img from "../components/Image";
 
 interface AuthLayoutProps {
   isInverted: boolean;
+  spacing: number;
   imgAlt: string;
   imgSrc: string;
   children: ReactNode;
@@ -12,12 +13,13 @@ interface AuthLayoutProps {
 
 const SideImageLayout = ({
   isInverted,
+  spacing,
   imgAlt,
   imgSrc,
   children,
 }: AuthLayoutProps) => {
   return (
-    <Grid container spacing={15} minHeight="100vh">
+    <Grid container spacing={spacing} minHeight="100vh">
       <Grid item xs={5}>
         {isInverted ? children : <Img alt={imgAlt} src={imgSrc} />}
       </Grid>

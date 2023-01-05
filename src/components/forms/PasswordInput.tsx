@@ -9,7 +9,11 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import { useState } from "react";
 
-const PasswordInput = () => {
+interface PasswordInputProps {
+  label: string;
+}
+
+const PasswordInput = ({ label }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -21,9 +25,9 @@ const PasswordInput = () => {
   };
 
   return (
-    <FormControl variant="standard">
+    <FormControl fullWidth variant="standard">
       <InputLabel htmlFor="standard-adornment-password" shrink={true}>
-        Password
+        {label}
       </InputLabel>
       <Input
         type={showPassword ? "text" : "password"}
