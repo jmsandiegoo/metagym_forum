@@ -4,8 +4,10 @@ import {
   FormControl,
   Popper,
   PopperProps,
+  styled,
   TextField,
 } from "@mui/material";
+import InterestChip from "../InterestChip";
 
 interface InterestInputProps {
   label: string;
@@ -16,22 +18,12 @@ interface OptionProps {
   value: string;
 }
 
-// const InterestDropdown = (props)=>
-//   <Popper {...props}>
-
-//     <p>test</p>
-//   </Popper>
-// );
+const InterestDropdown = styled("ul")({
+  display: "flex",
+  flexWrap: "wrap",
+});
 
 const InterestInput = ({ label }: InterestInputProps) => {
-  //   const mapValue = (value) => {
-  //     return value.map((v) => {
-  //       return {
-  //         label: v,
-  //         value: v,
-  //       };
-  //     });
-  //   };
   return (
     <FormControl fullWidth variant="standard">
       <Autocomplete
@@ -39,9 +31,13 @@ const InterestInput = ({ label }: InterestInputProps) => {
         clearOnBlur
         clearOnEscape
         multiple
+        ListboxComponent={InterestDropdown}
         options={dummyInterestOptions}
         getOptionLabel={(option: OptionProps) => option.label}
         filterSelectedOptions
+        renderOption={(props, option, { selected }) => (
+          <InterestChip label={option.label} {...props} />
+        )}
         renderTags={(tagValue: OptionProps[], getTagProps) =>
           tagValue.map((option: OptionProps, index: number) => (
             <Chip

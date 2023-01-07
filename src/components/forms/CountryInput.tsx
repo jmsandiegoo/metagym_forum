@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Box, Autocomplete, TextField } from "@mui/material";
 
 export default function CountrySelect() {
