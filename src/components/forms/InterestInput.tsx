@@ -23,6 +23,19 @@ const InterestDropdown = styled("ul")({
   flexWrap: "wrap",
 });
 
+const StyledOptionWrapper = styled("li")(({ theme }) => ({
+  margin: "0.5rem !important",
+  padding: "0 !important",
+  "&:hover, &:active": {
+    backgroundColor: "transparent !important",
+  },
+  "& .MuiChip-root:hover": {
+    cursor: "pointer",
+    background: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+  },
+}));
+
 const InterestInput = ({ label }: InterestInputProps) => {
   return (
     <FormControl fullWidth variant="standard">
@@ -36,7 +49,9 @@ const InterestInput = ({ label }: InterestInputProps) => {
         getOptionLabel={(option: OptionProps) => option.label}
         filterSelectedOptions
         renderOption={(props, option, { selected }) => (
-          <InterestChip label={option.label} {...props} />
+          <StyledOptionWrapper {...props}>
+            <InterestChip label={option.label} {...props} />
+          </StyledOptionWrapper>
         )}
         renderTags={(tagValue: OptionProps[], getTagProps) =>
           tagValue.map((option: OptionProps, index: number) => (
