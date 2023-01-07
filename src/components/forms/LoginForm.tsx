@@ -15,7 +15,7 @@ import PasswordInput from "./PasswordInput";
 
 const LoginForm = () => {
   return (
-    <Box component="form" maxWidth="60%">
+    <Box component="form" maxWidth="70%">
       <Stack spacing={2}>
         <Box pt={15}>
           <Img
@@ -32,14 +32,7 @@ const LoginForm = () => {
           </Typography>
         </Box>
 
-        <TextField
-          label="Username"
-          variant="standard"
-          size="medium"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+        <TextField label="Username" />
         <PasswordInput label="Password" />
         <Link
           component={RouterLink}

@@ -14,7 +14,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 const SignupForm = () => {
   return (
-    <Box component="form" maxWidth="60%">
+    <Box component="form" maxWidth="70%">
       <Stack spacing={2}>
         <Box pt={15}>
           <Img
@@ -32,48 +32,16 @@ const SignupForm = () => {
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Firstname"
-              variant="standard"
-              size="medium"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <TextField label="Firstname" />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Lastname"
-              variant="standard"
-              size="medium"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <TextField label="Lastname" />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Username"
-              variant="standard"
-              size="medium"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <TextField label="Username" />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Email"
-              variant="standard"
-              size="medium"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <TextField label="Email" />
           </Grid>
           <Grid item xs={12}>
             <PasswordInput label="Password" />

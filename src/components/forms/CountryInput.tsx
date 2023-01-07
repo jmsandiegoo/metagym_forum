@@ -27,15 +27,10 @@ export default function CountrySelect() {
       renderInput={(params) => (
         <TextField
           {...params}
-          fullWidth
           label="Country"
-          variant="standard"
           inputProps={{
             ...params.inputProps,
             autoComplete: "new-password", // disable autocomplete and autofill
-          }}
-          InputLabelProps={{
-            shrink: true,
           }}
         />
       )}

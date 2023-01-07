@@ -18,20 +18,14 @@ const NumberInput = ({
 }: NumberInputProps) => {
   return (
     <TextField
-      fullWidth
       type="number"
       label={label}
-      variant="standard"
-      size="medium"
       placeholder={placeholder}
       InputProps={{
         inputProps: {
           max,
           min,
         },
-      }}
-      InputLabelProps={{
-        shrink: true,
       }}
       onChange={
         onChangeHandler ||

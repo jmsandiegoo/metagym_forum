@@ -39,6 +39,21 @@ const theme = createTheme({
 					},
 				},
 			},
+			MuiTextField: {
+				defaultProps: {
+					variant: 'standard',
+					fullWidth: true,
+					size: 'medium',
+					InputLabelProps: {
+						shrink: true
+					}
+				}
+			},
+			MuiInputLabel: {
+				defaultProps: {
+					shrink: true
+				}
+			}
 		}
   });
 

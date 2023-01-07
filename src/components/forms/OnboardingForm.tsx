@@ -17,6 +17,7 @@ import RadioInput from "./RadioInput";
 import CountrySelect from "./CountryInput";
 import NumberInput from "./NumberInput";
 import AvatarImg from "../Avatar";
+import InterestInput from "./InterestInput";
 
 const OnboardingForm = () => {
   return (
@@ -47,16 +48,10 @@ const OnboardingForm = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                fullWidth
                 label="Bio"
-                variant="standard"
-                size="medium"
                 placeholder="Share interesting things about yourself (Achievements, PRs, etc.)"
                 multiline
                 rows={3}
-                InputLabelProps={{
-                  shrink: true,
-                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -103,12 +98,7 @@ const OnboardingForm = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <NumberInput
-                label="Weight (kg)"
-                placeholder="71.5"
-                min={0}
-                max={1000}
-              />
+              <InterestInput label="Interests" />
             </Grid>
           </Grid>
         </div>
