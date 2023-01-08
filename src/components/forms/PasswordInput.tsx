@@ -8,12 +8,14 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import { useState } from "react";
+import { Controller } from "react-hook-form";
 
 interface PasswordInputProps {
+  name: string;
   label: string;
 }
 
-const PasswordInput = ({ label }: PasswordInputProps) => {
+const PasswordInput = ({ name, label }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -25,25 +27,31 @@ const PasswordInput = ({ label }: PasswordInputProps) => {
   };
 
   return (
-    <FormControl fullWidth variant="standard">
-      <InputLabel htmlFor="standard-adornment-password" shrink={true}>
-        {label}
-      </InputLabel>
-      <Input
-        type={showPassword ? "text" : "password"}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        }
-      />
-    </FormControl>
+    <Controller
+      name={name}
+      render={({ field }) => (
+        <FormControl fullWidth variant="standard">
+          <InputLabel htmlFor="standard-adornment-password" shrink={true}>
+            {label}
+          </InputLabel>
+          <Input
+            {...field}
+            type={showPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+      )}
+    />
   );
 };
 

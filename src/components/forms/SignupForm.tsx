@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Img from "../Image";
 import logo_img from "../../assets/Logo.png";
 import PasswordInput from "./PasswordInput";
@@ -14,17 +15,41 @@ import { Link as RouterLink } from "react-router-dom";
 import {
   FieldValues,
   FormProvider,
+  SubmitHandler,
   useForm,
   UseFormReturn,
 } from "react-hook-form";
 import TextInput from "./TextInput";
+import { SignupData } from "../../types/SignupData";
+import { useAppSelector } from "../../hooks/reduxHooks";
+
+type SignupFormInput = { confirmPassword: string } & SignupData;
 
 const SignupForm = () => {
-  const methods: UseFormReturn<FieldValues, any> = useForm();
+  const loading = useAppSelector((state) => state.auth.loading);
+
+  const methods = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const signupHandler: SubmitHandler<SignupFormInput> = (data) => {
+    console.log(data);
+  };
 
   return (
     <FormProvider {...methods}>
-      <Box component="form" maxWidth="70%">
+      <Box
+        component="form"
+        maxWidth="70%"
+        onSubmit={methods.handleSubmit((data) => console.log(data))}
+      >
         <Stack spacing={2}>
           <Box pt={15}>
             <Img
@@ -42,10 +67,10 @@ const SignupForm = () => {
           </Box>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextInput name="firstname" label="Firstname" />
+              <TextInput name="firstName" label="Firstname" />
             </Grid>
             <Grid item xs={6}>
-              <TextInput name="lastname" label="Lastname" />
+              <TextInput name="lastName" label="Lastname" />
             </Grid>
             <Grid item xs={6}>
               <TextInput name="username" label="Username" />
@@ -54,19 +79,21 @@ const SignupForm = () => {
               <TextInput name="email" label="Email" />
             </Grid>
             <Grid item xs={12}>
-              <PasswordInput label="Password" />
+              <PasswordInput name="password" label="Password" />
             </Grid>
             <Grid item xs={12}>
-              <PasswordInput label="Confirm Password" />
+              <PasswordInput name="confirmPassword" label="Confirm Password" />
             </Grid>
           </Grid>
           <Box textAlign="center">
-            <Button
+            <LoadingButton
+              type="submit"
               variant="contained"
+              loading={loading}
               sx={{ alignSelf: "center", mt: 5, mb: 2 }}
             >
               Create Account
-            </Button>
+            </LoadingButton>
             <Typography variant="body2" textAlign="center">
               Already have an account?{" "}
               <Link component={RouterLink} variant="body2" to="/auth/login">
