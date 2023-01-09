@@ -11,6 +11,11 @@ const PublicRoute = ({ children }: PublicRouteProps) => {
   const location = useLocation();
 
   if (token) {
+    if (
+      authUser?.profile.userProfileId === "00000000-0000-0000-0000-000000000000"
+    ) {
+      return <Navigate to="/user/onboard" />;
+    }
     const redirectPath = location.state?.from || "/home";
     return <Navigate to={redirectPath} replace />;
   }
