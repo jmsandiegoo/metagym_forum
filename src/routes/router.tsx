@@ -5,9 +5,11 @@ import LoginPage from "../pages/LoginPage";
 import OnboardingPage from "../pages/OnboardingPage";
 import SignupPage from "../pages/SignupPage";
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 
 const authRoutes = {
   path: "/auth",
+  element: <PublicRoute />,
   children: [
     {
       path: "login",
@@ -36,7 +38,14 @@ export const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { index: true, element: <LandingPage /> },
+      {
+        index: true,
+        element: (
+          <PublicRoute>
+            <LandingPage />
+          </PublicRoute>
+        ),
+      },
       authRoutes,
       userRoutes,
     ],
