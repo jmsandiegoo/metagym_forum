@@ -39,5 +39,5 @@ export const login = createAsyncThunk("auth/login", async(loginData: LoginData, 
 })
 
 export const signOut = createAsyncThunk("auth/signout", async () => {
-    removeToken();
+    removeToken()
 })

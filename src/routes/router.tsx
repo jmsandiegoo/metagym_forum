@@ -1,9 +1,10 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import App from "../App";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
 import OnboardingPage from "../pages/OnboardingPage";
 import SignupPage from "../pages/SignupPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 const authRoutes = {
   path: "/auth",
@@ -21,6 +22,7 @@ const authRoutes = {
 
 const userRoutes = {
   path: "/user",
+  element: <ProtectedRoute />,
   children: [
     {
       path: "onboard",
