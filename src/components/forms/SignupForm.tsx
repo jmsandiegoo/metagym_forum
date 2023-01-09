@@ -11,7 +11,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Img from "../Image";
 import logo_img from "../../assets/Logo.png";
 import PasswordInput from "./PasswordInput";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, redirect } from "react-router-dom";
 import {
   FieldValues,
   FormProvider,
@@ -21,14 +21,15 @@ import {
 } from "react-hook-form";
 import TextInput from "./TextInput";
 import { SignupData } from "../../types/SignupData";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { signup } from "../../store/authThunks";
 
 type SignupFormInput = { confirmPassword: string } & SignupData;
 
 const SignupForm = () => {
   const loading = useAppSelector((state) => state.auth.loading);
-
-  const methods = useForm({
+  const dispatch = useAppDispatch();
+  const methods = useForm<SignupFormInput>({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -39,8 +40,23 @@ const SignupForm = () => {
     },
   });
 
-  const signupHandler: SubmitHandler<SignupFormInput> = (data) => {
-    console.log(data);
+  const signupHandler: SubmitHandler<SignupFormInput> = async (
+    data: SignupFormInput
+  ) => {
+    const signupData: SignupData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      username: data.username,
+      email: data.email,
+      password: data.password,
+    };
+
+    try {
+      const _ = await dispatch(signup(signupData)).unwrap();
+      return redirect("/user");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -48,7 +64,7 @@ const SignupForm = () => {
       <Box
         component="form"
         maxWidth="70%"
-        onSubmit={methods.handleSubmit((data) => console.log(data))}
+        onSubmit={methods.handleSubmit(signupHandler)}
       >
         <Stack spacing={2}>
           <Box pt={15}>
