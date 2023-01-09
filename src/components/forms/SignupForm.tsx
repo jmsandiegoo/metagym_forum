@@ -27,7 +27,7 @@ import { signup } from "../../store/authThunks";
 type SignupFormInput = { confirmPassword: string } & SignupData;
 
 const SignupForm = () => {
-  const loading = useAppSelector((state) => state.auth.loading);
+  const { loading } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const methods = useForm<SignupFormInput>({

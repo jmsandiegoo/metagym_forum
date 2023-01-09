@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import UserProfile from "../types/UserProfile";
-import { signup } from "./authThunks";
+import User from "../types/User";
+import { signup, login } from "./authThunks";
 
 interface StateType {
     token: string | null;
     loading: boolean;
-    authUser: UserProfile | null;
+    authUser: User | null;
     error: string | null;
 }
 
@@ -25,6 +25,15 @@ const authSlice = createSlice({
             state.loading = true;
         })
         builder.addCase(signup.fulfilled, (state, action) => {
+            state.loading = false;
+            state.token = action.payload.jwt;
+            state.authUser = action.payload.user;
+            state.error = null;
+        })
+        builder.addCase(login.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(login.fulfilled, (state, action) => {
             state.loading = false;
             state.token = action.payload.jwt;
             state.authUser = action.payload.user;

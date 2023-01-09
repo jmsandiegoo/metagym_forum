@@ -7,18 +7,42 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Link as RouterLink } from "react-router-dom";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import logo_img from "../../assets/Logo.png";
 import Img from "../Image";
 import PasswordInput from "./PasswordInput";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import LoginData from "../../types/LoginData";
+import TextInput from "./TextInput";
+import { login } from "../../store/authThunks";
 
 const LoginForm = () => {
-  const methods = useForm();
+  const { loading } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const methods = useForm<LoginData>({
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+
+  const loginHandler: SubmitHandler<LoginData> = async (data: LoginData) => {
+    try {
+      const _ = await dispatch(login(data)).unwrap();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <FormProvider {...methods}>
-      <Box component="form" maxWidth="70%">
+      <Box
+        component="form"
+        maxWidth="70%"
+        onSubmit={methods.handleSubmit(loginHandler)}
+      >
         <Stack spacing={2}>
           <Box pt={15}>
             <Img
@@ -34,8 +58,7 @@ const LoginForm = () => {
               Welcome back! Please enter your details.
             </Typography>
           </Box>
-
-          <TextField name="username" label="Username" />
+          <TextInput name="username" label="Username" />
           <PasswordInput name="password" label="Password" />
           <Link
             component={RouterLink}
@@ -46,12 +69,14 @@ const LoginForm = () => {
             Forgot Password
           </Link>
           <Box textAlign="center">
-            <Button
+            <LoadingButton
+              type="submit"
               variant="contained"
+              loading={loading}
               sx={{ alignSelf: "center", mt: 5, mb: 2 }}
             >
               Login
-            </Button>
+            </LoadingButton>
             <Typography variant="body2" textAlign="center">
               Don’t have an account?{" "}
               <Link
