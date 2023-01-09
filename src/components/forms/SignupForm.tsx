@@ -11,7 +11,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Img from "../Image";
 import logo_img from "../../assets/Logo.png";
 import PasswordInput from "./PasswordInput";
-import { Link as RouterLink, redirect } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   FieldValues,
   FormProvider,
@@ -28,6 +28,7 @@ type SignupFormInput = { confirmPassword: string } & SignupData;
 
 const SignupForm = () => {
   const loading = useAppSelector((state) => state.auth.loading);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const methods = useForm<SignupFormInput>({
     defaultValues: {
@@ -53,7 +54,7 @@ const SignupForm = () => {
 
     try {
       const _ = await dispatch(signup(signupData)).unwrap();
-      return redirect("/user");
+      navigate("/user/onboard");
     } catch (e) {
       console.error(e);
     }
