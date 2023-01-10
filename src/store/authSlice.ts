@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import User from "../types/User";
-import { signup, login } from "./authThunks";
+import { signup, login, signOut, fetchAuthUser } from "./authThunks";
 
 interface StateType {
     token: string | null;
@@ -19,7 +19,8 @@ const initialState: StateType = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+    },
     extraReducers: (builder) => {
         builder.addCase(signup.pending, (state, action) => {
             state.loading = true;
@@ -28,7 +29,6 @@ const authSlice = createSlice({
             state.loading = false;
             state.token = action.payload.jwt;
             state.authUser = action.payload.user;
-            state.error = null;
         })
         builder.addCase(login.pending, (state, action) => {
             state.loading = true;
@@ -37,7 +37,23 @@ const authSlice = createSlice({
             state.loading = false;
             state.token = action.payload.jwt;
             state.authUser = action.payload.user;
-            state.error = null;
+        })
+        builder.addCase(signOut.fulfilled, (state, action) => {
+            state.loading = false;
+            state.token = null;
+            state.authUser = null;
+        })
+        builder.addCase(fetchAuthUser.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(fetchAuthUser.fulfilled, (state, action) => {
+            state.loading = false;
+            console.log(action.payload.user);
+            state.token = action.payload.jwt;
+            state.authUser = action.payload.user;
+        })
+        builder.addCase(fetchAuthUser.rejected, (state, action) => {
+            state.loading = false;
         })
     }
 })

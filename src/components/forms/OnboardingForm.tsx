@@ -12,14 +12,18 @@ import {
 } from "@mui/material";
 import Img from "../Image";
 import logo_img from "../../assets/Logo.png";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import RadioInput from "./RadioInput";
 import CountrySelect from "./CountryInput";
 import NumberInput from "./NumberInput";
 import AvatarImg from "../Avatar";
 import InterestInput from "./InterestInput";
+import { useAppSelector } from "../../hooks/reduxHooks";
 
 const OnboardingForm = () => {
+  const { loading } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+
   return (
     <Box component="form" px={15}>
       <Stack spacing={2}>

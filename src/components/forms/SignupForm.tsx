@@ -12,19 +12,13 @@ import Img from "../Image";
 import logo_img from "../../assets/Logo.png";
 import PasswordInput from "./PasswordInput";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import {
-  FieldValues,
-  FormProvider,
-  SubmitHandler,
-  useForm,
-  UseFormReturn,
-} from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import TextInput from "./TextInput";
-import { SignupData } from "../../types/SignupData";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { signup } from "../../store/authThunks";
+import { SignupRequest } from "../../types/AuthReq";
 
-type SignupFormInput = { confirmPassword: string } & SignupData;
+type SignupFormInput = { confirmPassword: string } & SignupRequest;
 
 const SignupForm = () => {
   const { loading } = useAppSelector((state) => state.auth);
@@ -44,7 +38,7 @@ const SignupForm = () => {
   const signupHandler: SubmitHandler<SignupFormInput> = async (
     data: SignupFormInput
   ) => {
-    const signupData: SignupData = {
+    const signupData: SignupRequest = {
       firstName: data.firstName,
       lastName: data.lastName,
       username: data.username,

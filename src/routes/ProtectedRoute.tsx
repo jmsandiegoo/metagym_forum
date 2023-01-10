@@ -15,7 +15,7 @@ const ProtectedRoute = () => {
   }
 
   if (
-    authUser?.profile.userProfileId ===
+    authUser?.profile?.userProfileId ===
       "00000000-0000-0000-0000-000000000000" &&
     location.pathname !== "/user/onboard"
   ) {

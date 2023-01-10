@@ -1,16 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "../utilities/httpCommon";
-import { SignupData } from "../types/SignupData";
+import {axiosInstance} from "../utilities/httpCommon";
 import { getToken, removeToken, setToken } from "../utilities/localStorageHelper";
-import axios, { AxiosError } from "axios";
-import LoginData from "../types/LoginData";
-import User from "../types/User";
+import axios from "axios";
+import { UserResponse, UserJwtResponse } from "../types/UserRes";
+import { LoginRequest, SignupRequest } from "../types/AuthReq";
 
-type UserJwt = {jwt: string, user: User}
 
-export const signup = createAsyncThunk("auth/signup", async(signupData: SignupData, thunkAPI) => {
+export const signup = createAsyncThunk("auth/signup", async(signupData: SignupRequest, thunkAPI) => {
     try {
-        const {data} = await axiosInstance.post<UserJwt>("/auth/signup", signupData);
+        const {data} = await axiosInstance.post<UserJwtResponse>("/auth/signup", signupData);
         setToken(data.jwt);
         return data;
     } catch (error) {
@@ -23,9 +21,9 @@ export const signup = createAsyncThunk("auth/signup", async(signupData: SignupDa
     }
 })
 
-export const login = createAsyncThunk("auth/login", async(loginData: LoginData, thunkAPI) => {
+export const login = createAsyncThunk("auth/login", async(loginData: LoginRequest, thunkAPI) => {
     try {
-        const {data} = await axiosInstance.post<UserJwt>("/auth/login", loginData);
+        const {data} = await axiosInstance.post<UserJwtResponse>("/auth/login", loginData);
         setToken(data.jwt);
         return data;
     } catch (error) {
@@ -40,4 +38,25 @@ export const login = createAsyncThunk("auth/login", async(loginData: LoginData, 
 
 export const signOut = createAsyncThunk("auth/signout", async () => {
     removeToken()
+})
+
+export const fetchAuthUser = createAsyncThunk("auth/fetcAuthUser", async(_, thunkAPI) => {
+    try {
+        const token = getToken();
+        const {data} = await axiosInstance.get<UserResponse>("api/user/auth-user");
+        console.log(data);
+        const payload: UserJwtResponse = {
+            jwt: token as string,
+            user: data.user
+        }
+        return payload;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return thunkAPI.rejectWithValue(error.message);
+        } else {
+            console.log('unexpected error: ', error);
+            console.error(error)
+            return thunkAPI.rejectWithValue('An unexpected error occurred');
+        }
+    }
 })

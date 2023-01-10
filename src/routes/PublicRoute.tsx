@@ -11,8 +11,10 @@ const PublicRoute = ({ children }: PublicRouteProps) => {
   const location = useLocation();
 
   if (token) {
+    console.log(authUser);
     if (
-      authUser?.profile.userProfileId === "00000000-0000-0000-0000-000000000000"
+      authUser?.profile?.userProfileId ===
+      "00000000-0000-0000-0000-000000000000"
     ) {
       return <Navigate to="/user/onboard" />;
     }

@@ -14,21 +14,23 @@ import logo_img from "../../assets/Logo.png";
 import Img from "../Image";
 import PasswordInput from "./PasswordInput";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import LoginData from "../../types/LoginData";
 import TextInput from "./TextInput";
 import { login } from "../../store/authThunks";
+import { LoginRequest } from "../../types/AuthReq";
 
 const LoginForm = () => {
   const { loading } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const methods = useForm<LoginData>({
+  const methods = useForm<LoginRequest>({
     defaultValues: {
       username: "",
       password: "",
     },
   });
 
-  const loginHandler: SubmitHandler<LoginData> = async (data: LoginData) => {
+  const loginHandler: SubmitHandler<LoginRequest> = async (
+    data: LoginRequest
+  ) => {
     try {
       const _ = await dispatch(login(data)).unwrap();
     } catch (e) {
