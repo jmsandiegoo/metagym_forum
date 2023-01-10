@@ -2,9 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {axiosInstance} from "../utilities/httpCommon";
 import { getToken, removeToken, setToken } from "../utilities/localStorageHelper";
 import axios from "axios";
-import { UserResponse, UserJwtResponse } from "../types/UserRes";
-import { LoginRequest, SignupRequest } from "../types/AuthReq";
-
+import { LoginRequest, OnboardRequest, SignupRequest, UserJwtResponse, UserResponse } from "../types";
 
 export const signup = createAsyncThunk("auth/signup", async(signupData: SignupRequest, thunkAPI) => {
     try {
@@ -38,6 +36,20 @@ export const login = createAsyncThunk("auth/login", async(loginData: LoginReques
 
 export const signOut = createAsyncThunk("auth/signout", async () => {
     removeToken()
+})
+
+export const onboard = createAsyncThunk("auth/onboard", async (onboardData: OnboardRequest, thunkAPI) => {
+    try {
+        const {data} = await axiosInstance.post("api/user/onboard", onboardData)
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return thunkAPI.rejectWithValue(error.message);
+        } else {
+            console.log('unexpected error: ', error);
+            console.error(error)
+            return thunkAPI.rejectWithValue('An unexpected error occurred');
+        }
+    }
 })
 
 export const fetchAuthUser = createAsyncThunk("auth/fetcAuthUser", async(_, thunkAPI) => {

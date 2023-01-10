@@ -16,7 +16,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import TextInput from "./TextInput";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { signup } from "../../store/authThunks";
-import { SignupRequest } from "../../types/AuthReq";
+import { SignupRequest } from "../../types";
 
 type SignupFormInput = { confirmPassword: string } & SignupRequest;
 

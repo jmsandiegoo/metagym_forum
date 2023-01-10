@@ -16,7 +16,7 @@ import PasswordInput from "./PasswordInput";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import TextInput from "./TextInput";
 import { login } from "../../store/authThunks";
-import { LoginRequest } from "../../types/AuthReq";
+import { LoginRequest } from "../../types";
 
 const LoginForm = () => {
   const { loading } = useAppSelector((state) => state.auth);
