@@ -24,7 +24,7 @@ import { LoadingButton } from "@mui/lab";
 import { OnboardRequest } from "../../types";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import TextInput from "./TextInput";
-import { onboard } from "../../store/authThunks";
+import { onboard, signOut } from "../../store/authThunks";
 
 const OnboardingForm = () => {
   const { loading: authLoading, authUser } = useAppSelector(
@@ -162,15 +162,20 @@ const OnboardingForm = () => {
               </Grid>
             </Grid>
           </div>
-          <Box textAlign="end">
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              loading={authLoading}
-              sx={{ alignSelf: "center", mt: 5, mb: 2 }}
-            >
-              Finish Set up
-            </LoadingButton>
+          <Box>
+            <Stack direction="row" justifyContent="flex-end" spacing={1} mt={3}>
+              <Button variant="text" onClick={() => dispatch(signOut())}>
+                Sign out
+              </Button>
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={authLoading}
+                // sx={{ alignSelf: "center", mt: 5, mb: 2 }}
+              >
+                Finish Set up
+              </LoadingButton>
+            </Stack>
           </Box>
         </Stack>
       </Box>
