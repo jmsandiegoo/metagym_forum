@@ -9,17 +9,15 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Controller } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { fetchInterests } from "../../store/interestThunk";
+import { OptionType } from "../../types";
+import { mapValuesToOptions } from "../../utilities/helper";
 import InterestChip from "../InterestChip";
 
 interface InterestInputProps {
   label: string;
-}
-
-interface OptionProps {
-  label: string;
-  value: string;
 }
 
 const InterestDropdown = styled("ul")({
@@ -41,7 +39,7 @@ const StyledOptionWrapper = styled("li")(({ theme }) => ({
 }));
 
 const InterestInput = ({ label }: InterestInputProps) => {
-  const [interestOptions, setInterestOptions] = useState<OptionProps[]>([]);
+  const [interestOptions, setInterestOptions] = useState<OptionType[]>([]);
   const { loading: interestLoading, interests } = useAppSelector(
     (state) => state.interest
   );
@@ -63,35 +61,51 @@ const InterestInput = ({ label }: InterestInputProps) => {
   }, [interests]);
 
   return (
-    <FormControl fullWidth variant="standard">
-      <Autocomplete
-        openOnFocus
-        clearOnBlur
-        clearOnEscape
-        multiple
-        ListboxComponent={InterestDropdown}
-        options={interestOptions}
-        getOptionLabel={(option: OptionProps) => option.label}
-        filterSelectedOptions
-        loading={true}
-        renderOption={(props, option, { selected }) => (
-          <StyledOptionWrapper {...props}>
-            <InterestChip label={option.label} {...props} />
-          </StyledOptionWrapper>
-        )}
-        renderTags={(tagValue: OptionProps[], getTagProps) =>
-          tagValue.map((option: OptionProps, index: number) => (
-            <Chip
-              variant="outlined"
-              label={option.label}
-              color="primary"
-              {...getTagProps({ index })}
-            />
-          ))
-        }
-        renderInput={(params) => <TextField {...params} label={label} />}
-      ></Autocomplete>
-    </FormControl>
+    <Controller
+      name="interests"
+      render={({ field: { ref, value, ...field } }) => (
+        <FormControl fullWidth variant="standard">
+          <Autocomplete
+            {...field}
+            openOnFocus
+            clearOnBlur
+            clearOnEscape
+            multiple
+            value={mapValuesToOptions(value, interestOptions)}
+            ListboxComponent={InterestDropdown}
+            options={interestOptions}
+            getOptionLabel={(option: OptionType) => option.label}
+            filterSelectedOptions
+            loading={true}
+            renderOption={(props, option, { selected }) => (
+              <StyledOptionWrapper {...props}>
+                <InterestChip label={option.label} {...props} />
+              </StyledOptionWrapper>
+            )}
+            isOptionEqualToValue={(option, value) =>
+              option.value === value.value
+            }
+            renderTags={(tagValue: OptionType[], getTagProps) =>
+              tagValue.map((option: OptionType, index: number) => (
+                <Chip
+                  variant="outlined"
+                  label={option.label}
+                  color="primary"
+                  {...getTagProps({ index })}
+                />
+              ))
+            }
+            renderInput={(params) => (
+              <TextField {...params} inputRef={ref} label={label} />
+            )}
+            onChange={(_, data) => {
+              console.log(data);
+              return field.onChange(data.map((d) => d.value));
+            }}
+          ></Autocomplete>
+        </FormControl>
+      )}
+    />
   );
 };
 

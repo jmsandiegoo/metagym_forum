@@ -55,8 +55,8 @@ export interface SignupRequest {
     password: string;
 }
 
-export type OnboardRequest = Omit<UserProfile, "userProfileId" | "interests"> & {
-    interests: string[];
+export type OnboardRequest = Pick<UserProfile, "pfpUrl" | "bio" | "experience" | "country" | "height" | "weight" | "age"> & {
+    interests: string[]
 }
 
 //////////////////////
@@ -75,3 +75,17 @@ export interface UserJwtResponse {
 export interface UserProfileResponse {
     profile: UserProfile
 }
+
+export interface InterestsResponse {
+    interests: Interest[]
+}
+
+//////////////////////
+// Others
+//////////////////////
+export type CountryType = { phone: string } & OptionType
+export interface OptionType {
+    label: string;
+    value: string;
+    suggested?: boolean;
+  }

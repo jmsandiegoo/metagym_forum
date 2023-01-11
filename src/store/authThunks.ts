@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {axiosInstance} from "../utilities/httpCommon";
 import { getToken, removeToken, setToken } from "../utilities/localStorageHelper";
 import axios from "axios";
-import { LoginRequest, OnboardRequest, SignupRequest, UserJwtResponse, UserResponse } from "../types";
+import { LoginRequest, OnboardRequest, SignupRequest, UserJwtResponse, UserResponse, UserProfileResponse } from "../types";
 
 export const signup = createAsyncThunk("auth/signup", async(signupData: SignupRequest, thunkAPI) => {
     try {
@@ -40,7 +40,8 @@ export const signOut = createAsyncThunk("auth/signout", async () => {
 
 export const onboard = createAsyncThunk("auth/onboard", async (onboardData: OnboardRequest, thunkAPI) => {
     try {
-        const {data} = await axiosInstance.post("api/user/onboard", onboardData)
+        const {data} = await axiosInstance.post<UserProfileResponse>("api/user/onboard", onboardData)
+        return data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             return thunkAPI.rejectWithValue(error.message);
@@ -56,7 +57,6 @@ export const fetchAuthUser = createAsyncThunk("auth/fetcAuthUser", async(_, thun
     try {
         const token = getToken();
         const {data} = await axiosInstance.get<UserResponse>("api/user/auth-user");
-        console.log(data);
         const payload: UserJwtResponse = {
             jwt: token as string,
             user: data.user

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../types";
-import { signup, login, signOut, fetchAuthUser } from "./authThunks";
+import { signup, login, signOut, fetchAuthUser, onboard } from "./authThunks";
 
 interface StateType {
     token: string | null;
@@ -43,12 +43,20 @@ const authSlice = createSlice({
             state.token = null;
             state.authUser = null;
         })
+        builder.addCase(onboard.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(onboard.fulfilled, (state, action) => {
+            state.loading = false;
+            if (state.authUser) {
+                state.authUser.profile = action.payload.profile; 
+            }
+        })
         builder.addCase(fetchAuthUser.pending, (state, action) => {
             state.loading = true;
         })
         builder.addCase(fetchAuthUser.fulfilled, (state, action) => {
             state.loading = false;
-            console.log(action.payload.user);
             state.token = action.payload.jwt;
             state.authUser = action.payload.user;
         })

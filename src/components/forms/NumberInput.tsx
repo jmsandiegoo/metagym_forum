@@ -1,43 +1,49 @@
 import { TextField } from "@mui/material";
 import { SyntheticEvent } from "react";
+import { Controller } from "react-hook-form";
 
 interface NumberInputProps {
+  name: string;
   label: string;
   placeholder: string;
   min: number;
   max: number;
+  step?: number;
   onChangeHandler?: (e: SyntheticEvent) => void;
 }
 
 const NumberInput = ({
+  name,
   label,
   placeholder,
   min,
   max,
+  step = 1,
   onChangeHandler,
 }: NumberInputProps) => {
   return (
-    <TextField
-      type="number"
-      label={label}
-      placeholder={placeholder}
-      InputProps={{
-        inputProps: {
-          max,
-          min,
-        },
-      }}
-      onChange={
-        onChangeHandler ||
-        ((e) => {
-          var value = parseInt(e.target.value, 10);
-
-          if (value > max) value = max;
-          if (value < min) value = min;
-
-          // set
-        })
-      }
+    <Controller
+      name={name}
+      render={({ field }) => (
+        <TextField
+          {...field}
+          type="number"
+          label={label}
+          placeholder={placeholder}
+          InputProps={{
+            inputProps: {
+              max,
+              min,
+              step,
+            },
+          }}
+          onChange={(e) =>
+            onChangeHandler
+              ? field.onChange(onChangeHandler)
+              : field.onChange(parseFloat(e.target.value))
+          }
+        />
+      )}
     />
   );
 };
