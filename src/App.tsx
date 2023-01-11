@@ -15,6 +15,7 @@ import { getToken } from "./utilities/localStorageHelper";
 import { fetchAuthUser } from "./store/authThunks";
 import { AxiosHeaders, RawAxiosRequestHeaders } from "axios";
 import { axiosInstance } from "./utilities/httpCommon";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
   const [initializing, setInitializing] = useState<boolean>(true);
@@ -59,10 +60,7 @@ function App() {
           }}
           open={initializing}
         >
-          <Stack alignItems="center" spacing={2}>
-            <CircularProgress />
-            <Typography>Initializing please wait...</Typography>
-          </Stack>
+          <LoadingSpinner text="Initializing please wait..." />
         </Backdrop>
       ) : (
         <Outlet />

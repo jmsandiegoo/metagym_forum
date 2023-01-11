@@ -1,12 +1,16 @@
 import {
   Autocomplete,
   Chip,
+  CircularProgress,
   FormControl,
   Popper,
   PopperProps,
   styled,
   TextField,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { fetchInterests } from "../../store/interestThunk";
 import InterestChip from "../InterestChip";
 
 interface InterestInputProps {
@@ -37,6 +41,27 @@ const StyledOptionWrapper = styled("li")(({ theme }) => ({
 }));
 
 const InterestInput = ({ label }: InterestInputProps) => {
+  const [interestOptions, setInterestOptions] = useState<OptionProps[]>([]);
+  const { loading: interestLoading, interests } = useAppSelector(
+    (state) => state.interest
+  );
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchInterests());
+  }, []);
+
+  useEffect(() => {
+    if (interests.length !== 0) {
+      setInterestOptions(
+        interests.map((interest) => ({
+          label: interest.name,
+          value: interest.interestId,
+        }))
+      );
+    }
+  }, [interests]);
+
   return (
     <FormControl fullWidth variant="standard">
       <Autocomplete
@@ -45,9 +70,10 @@ const InterestInput = ({ label }: InterestInputProps) => {
         clearOnEscape
         multiple
         ListboxComponent={InterestDropdown}
-        options={dummyInterestOptions}
+        options={interestOptions}
         getOptionLabel={(option: OptionProps) => option.label}
         filterSelectedOptions
+        loading={true}
         renderOption={(props, option, { selected }) => (
           <StyledOptionWrapper {...props}>
             <InterestChip label={option.label} {...props} />
@@ -63,19 +89,10 @@ const InterestInput = ({ label }: InterestInputProps) => {
             />
           ))
         }
-        //   isOptionEqualToValue={(option, value) =>
-        //     option.label === value.label
         renderInput={(params) => <TextField {...params} label={label} />}
       ></Autocomplete>
     </FormControl>
   );
 };
-
-const dummyInterestOptions = [
-  { label: "Gym", value: "1234-4567-890" },
-  { label: "Calisthenics", value: "2234-4567-891" },
-  { label: "Running", value: "3234-4567-892" },
-  { label: "Bodybuilding", value: "4234-4567-893" },
-];
 
 export default InterestInput;
