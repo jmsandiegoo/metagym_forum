@@ -2,8 +2,8 @@ import { Avatar } from "@mui/material";
 
 interface AvatarProps {
   fallbackName: string;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   src?: string;
 }
 

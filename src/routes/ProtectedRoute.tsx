@@ -2,11 +2,11 @@ import { ReactNode } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "../hooks/reduxHooks";
 
-// interface ProtectedRouteProps {
-//   children: ReactNode;
-// }
+interface ProtectedRouteProps {
+  children?: ReactNode;
+}
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { token, authUser } = useAppSelector((state) => state.auth);
   const location = useLocation();
 
@@ -20,6 +20,10 @@ const ProtectedRoute = () => {
     location.pathname !== "/user/onboard"
   ) {
     return <Navigate to="/user/onboard" />;
+  }
+
+  if (children) {
+    return <>{children}</>;
   }
 
   return <Outlet />;

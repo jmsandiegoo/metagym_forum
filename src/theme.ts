@@ -1,14 +1,16 @@
 import { createTheme } from "@mui/material";
 
+const primaryColor: string = '#FF3739';
+const backgroundColor: string = '#121212';
 const theme = createTheme({
     palette: {
       mode: 'dark',
       background: {
-        default: '#121212',
-        paper: '#121212',
+        default: backgroundColor,
+        paper: backgroundColor,
       },
 			primary: {
-				main: '#FF3739'
+				main: primaryColor
 			}
     },
 		typography: {
@@ -18,9 +20,25 @@ const theme = createTheme({
 			}
 		},
 		components: {
-			MuiButton: {
+			MuiAppBar: {
 				styleOverrides: {
 					root: {
+						background: backgroundColor,
+						boxShadow: 'none',
+					}
+				}
+			},
+			MuiButton: {
+				styleOverrides: {
+					// root: {
+					// 	paddingLeft: '2.5rem',
+					// 	paddingRight: '2.5rem',
+					// },
+					sizeSmall: {
+						paddingLeft: '1rem',
+						paddingRight: '1rem',
+					},
+					sizeMedium: {
 						paddingLeft: '2.5rem',
 						paddingRight: '2.5rem',
 					}

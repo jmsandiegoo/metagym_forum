@@ -17,7 +17,7 @@ import { Link as RouterLink, Navigate, useNavigate } from "react-router-dom";
 import RadioInput from "./RadioInput";
 import CountrySelect from "./CountryInput";
 import NumberInput from "./NumberInput";
-import AvatarImg from "../Avatar";
+import AvatarImg from "../AvatarImg";
 import InterestInput from "./InterestInput";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { LoadingButton } from "@mui/lab";
@@ -171,7 +171,6 @@ const OnboardingForm = () => {
                 type="submit"
                 variant="contained"
                 loading={authLoading}
-                // sx={{ alignSelf: "center", mt: 5, mb: 2 }}
               >
                 Finish Set up
               </LoadingButton>

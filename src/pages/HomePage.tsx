@@ -1,5 +1,14 @@
+import { Container } from "@mui/material";
+import MainLayout from "../layouts/MainLayout";
+
 const HomePage = () => {
-  return <p>Homepage</p>;
+  return (
+    <MainLayout>
+      <Container>
+        <p>Homepage</p>
+      </Container>
+    </MainLayout>
+  );
 };
 
 export default HomePage;

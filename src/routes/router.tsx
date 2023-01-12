@@ -1,5 +1,6 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import App from "../App";
+import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
 import OnboardingPage from "../pages/OnboardingPage";
@@ -44,6 +45,14 @@ export const router = createBrowserRouter([
           <PublicRoute>
             <LandingPage />
           </PublicRoute>
+        ),
+      },
+      {
+        path: "/home",
+        element: (
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
         ),
       },
       authRoutes,
