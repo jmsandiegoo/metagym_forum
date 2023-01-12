@@ -1,16 +1,29 @@
-import { Box } from "@mui/material";
+import { Box, Fab } from "@mui/material";
 import { ReactNode } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
+import AddIcon from "@mui/icons-material/Add";
 
 interface MainLayoutProps {
+  isAddButtonEnabled: boolean;
   children: ReactNode;
 }
 
-const MainLayout = ({ children }: MainLayoutProps) => {
+const MainLayout = ({ isAddButtonEnabled, children }: MainLayoutProps) => {
+  const navigate = useNavigate();
   return (
     <Box>
       <Navbar />
+      {isAddButtonEnabled && (
+        <Fab
+          color="primary"
+          aria-label="add"
+          sx={{ position: "fixed", bottom: 50, left: 50 }}
+          onClick={() => navigate("/thread/create")}
+        >
+          <AddIcon />
+        </Fab>
+      )}
       {children}
     </Box>
   );

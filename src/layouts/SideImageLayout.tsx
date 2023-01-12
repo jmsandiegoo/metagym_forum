@@ -8,6 +8,7 @@ interface AuthLayoutProps {
   spacing: number;
   imgAlt: string;
   imgSrc: string;
+  minHeight?: string | number;
   children: ReactNode;
 }
 
@@ -16,14 +17,15 @@ const SideImageLayout = ({
   spacing,
   imgAlt,
   imgSrc,
+  minHeight = "100vh",
   children,
 }: AuthLayoutProps) => {
   return (
-    <Grid container spacing={spacing} minHeight="100vh">
-      <Grid item xs={5}>
+    <Grid container spacing={spacing} minHeight={minHeight}>
+      <Grid item xs={isInverted ? 7 : 5}>
         {isInverted ? children : <Img alt={imgAlt} src={imgSrc} />}
       </Grid>
-      <Grid item xs={7} sx={{ "& > *": { height: "100%" } }}>
+      <Grid item xs={isInverted ? 5 : 7} sx={{ "& > *": { height: "100%" } }}>
         {isInverted ? <Img alt={imgAlt} src={imgSrc} /> : children}
       </Grid>
     </Grid>

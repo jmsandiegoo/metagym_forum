@@ -30,7 +30,6 @@ const OnboardingForm = () => {
   const { loading: authLoading, authUser } = useAppSelector(
     (state) => state.auth
   );
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const methods = useForm<OnboardRequest>({

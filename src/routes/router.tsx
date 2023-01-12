@@ -1,5 +1,6 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import App from "../App";
+import CreateThreadPage from "../pages/CreateThreadPage";
 import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
@@ -34,6 +35,17 @@ const userRoutes = {
   ],
 };
 
+const threadRoutes = {
+  path: "/thread",
+  element: <ProtectedRoute />,
+  children: [
+    {
+      path: "create",
+      element: <CreateThreadPage />,
+    },
+  ],
+};
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -57,6 +69,7 @@ export const router = createBrowserRouter([
       },
       authRoutes,
       userRoutes,
+      threadRoutes,
     ],
   },
 ]);

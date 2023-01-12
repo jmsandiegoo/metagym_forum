@@ -1,10 +1,7 @@
 import {
   Autocomplete,
   Chip,
-  CircularProgress,
   FormControl,
-  Popper,
-  PopperProps,
   styled,
   TextField,
 } from "@mui/material";

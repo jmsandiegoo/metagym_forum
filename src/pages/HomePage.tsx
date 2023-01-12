@@ -3,7 +3,7 @@ import MainLayout from "../layouts/MainLayout";
 
 const HomePage = () => {
   return (
-    <MainLayout>
+    <MainLayout isAddButtonEnabled>
       <Container>
         <p>Homepage</p>
       </Container>

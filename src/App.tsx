@@ -2,20 +2,16 @@ import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { Outlet } from "react-router-dom";
-import {
-  Backdrop,
-  CircularProgress,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
-import { Box, CssBaseline, Stack } from "@mui/material";
+import { Backdrop, ThemeProvider } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import theme from "./theme";
 import { useAppDispatch } from "./hooks/reduxHooks";
 import { getToken } from "./utilities/localStorageHelper";
 import { fetchAuthUser } from "./store/authThunks";
-import { AxiosHeaders, RawAxiosRequestHeaders } from "axios";
+import { RawAxiosRequestHeaders } from "axios";
 import { axiosInstance } from "./utilities/httpCommon";
 import LoadingSpinner from "./components/LoadingSpinner";
+import Notification from "./components/Notification";
 
 function App() {
   const [initializing, setInitializing] = useState<boolean>(true);
@@ -65,6 +61,7 @@ function App() {
       ) : (
         <Outlet />
       )}
+      <Notification />
     </ThemeProvider>
   );
 }

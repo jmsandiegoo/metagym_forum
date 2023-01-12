@@ -4,6 +4,7 @@ interface ImgProps {
   marginProp?: string | number;
   widthProp?: string | number;
   heightProp?: string | number;
+  // otherImgProps?: {};
 }
 
 const Img = styled("img", {
@@ -16,6 +17,7 @@ const Img = styled("img", {
   maxHeight: "100%",
   width: widthProp || "100%",
   height: heightProp || "100%",
+  // ...{ otherImgProps },
 }));
 
 export default Img;

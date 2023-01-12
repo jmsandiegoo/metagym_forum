@@ -11,7 +11,13 @@ export interface User {
     isVerified: boolean,
     createdAt: Date,
     updatedAt: Date,
-    profile: UserProfile
+    profile: UserProfile,
+    threads: Thread[] | null,
+    comments: Comment[] | null,
+    likedThreads: Thread[] | null,
+    dislikedThreads: Thread[] | null,
+    likedComments: Comment[] | null,
+    dislikedComments: Comment[] | null,
 }
 
 export interface UserProfile {
@@ -38,6 +44,32 @@ export interface Interest {
     UserProfiles: UserProfile[]
 }
 
+export interface Thread {
+    threadId: string,
+    title: string,
+    body: string,
+    createdAt: Date,
+    updatedAt: Date;
+    userId: string;
+    comments: Comment[] | null;
+    interests: Interest[];
+    usersLiked: User[] | null;
+    usersDisliked: User[] | null;
+}
+
+export interface Comment {
+    commentId: string;
+    body: string;
+    createdAt: Date,
+    updatedAt: Date,
+    threadId: string,
+    userId: string,
+    thread: Thread,
+    user: User,
+    usersLiked: User[],
+    usersDisliked: User[]
+}
+
 //////////////////////
 // Request
 //////////////////////
@@ -59,12 +91,19 @@ export type OnboardRequest = Pick<UserProfile, "pfpUrl" | "bio" | "experience" |
     interests: string[]
 }
 
+export interface ThreadRequest {
+    threadId?: string;
+    title: string;
+    body: string;
+    interests: string[];
+}
+
 //////////////////////
 // Response
 //////////////////////
 
 export interface UserResponse {
-    user: User
+    user: User;
 }
 
 export interface UserJwtResponse {
@@ -73,11 +112,15 @@ export interface UserJwtResponse {
 }
 
 export interface UserProfileResponse {
-    profile: UserProfile
+    profile: UserProfile;
 }
 
 export interface InterestsResponse {
-    interests: Interest[]
+    interests: Interest[];
+}
+
+export interface ThreadResponse {
+    thread: Thread;
 }
 
 //////////////////////
@@ -89,3 +132,8 @@ export interface OptionType {
     value: string;
     suggested?: boolean;
   }
+
+export interface FeedbackData {
+    type: "success" | "error" | "warning";
+    message: string;
+}
