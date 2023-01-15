@@ -34,54 +34,66 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
 
   const handleUpvote = async () => {
     try {
-      // dispatch upvote
+      if (isUpvoteActive)
+        // dispatch upvote
+        // setUpvoteActive
+        setVoteCount((prev) => prev + 1);
+      setIsUpvoteActive(true);
+      setIsDownvoteActive(false);
       if (typeIsThread) {
         console.log("upvote thread");
       } else {
         console.log("upvote comment");
       }
-      // setUpvoteActive
-      setVoteCount((prev) => prev + 1);
-      setIsUpvoteActive(true);
-      setIsDownvoteActive(false);
     } catch (e) {
       if (axios.isAxiosError(e)) {
         dispatch(setErrorFeedback(e.response?.data?.error || e.message));
       } else {
         dispatch(setErrorFeedback("An unexpected error occured"));
       }
+      setVoteCount((prev) => prev + 1);
+      setIsUpvoteActive(false);
+      setIsDownvoteActive(false);
     }
   };
 
   const handleDownvote = async () => {
     try {
       // dispatch downvote
+      setVoteCount((prev) => prev - 1);
+      setIsUpvoteActive(false);
+      setIsDownvoteActive(true);
       if (typeIsThread) {
         console.log("downvote thread");
       } else {
         console.log("downvote comment");
       }
-      // setUpvoteActive
-      setVoteCount((prev) => prev - 1);
-      setIsUpvoteActive(false);
-      setIsDownvoteActive(true);
     } catch (e) {
       if (axios.isAxiosError(e)) {
         dispatch(setErrorFeedback(e.response?.data?.error || e.message));
       } else {
         dispatch(setErrorFeedback("An unexpected error occured"));
       }
+      setVoteCount((prev) => prev - 1);
+      setIsUpvoteActive(false);
+      setIsDownvoteActive(false);
     }
   };
 
   return (
     <Stack direction="row" alignItems="center">
       <IconButton aria-label="upvote" size="small" onClick={handleUpvote}>
-        <ArrowUpwardIcon fontSize="small" />
+        <ArrowUpwardIcon
+          fontSize="small"
+          {...(isUpvoteActive && { color: "primary" })}
+        />
       </IconButton>
       {voteCount}
       <IconButton aria-label="downvote" size="small" onClick={handleDownvote}>
-        <ArrowDownwardIcon fontSize="small" />
+        <ArrowDownwardIcon
+          fontSize="small"
+          {...(isDownvoteActive && { color: "primary" })}
+        />
       </IconButton>
     </Stack>
   );

@@ -7,7 +7,7 @@ import { CssBaseline } from "@mui/material";
 import theme from "./theme";
 import { useAppDispatch } from "./hooks/reduxHooks";
 import { getToken } from "./utilities/localStorageHelper";
-import { fetchAuthUser } from "./store/authThunks";
+import { fetchAuthUser, signOut } from "./store/authThunks";
 import { RawAxiosRequestHeaders } from "axios";
 import { axiosInstance } from "./utilities/httpCommon";
 import LoadingSpinner from "./components/LoadingSpinner";
@@ -32,6 +32,17 @@ function App() {
           return config;
         },
         (error) => {
+          return Promise.reject(error);
+        }
+      );
+      axiosInstance.interceptors.response.use(
+        function (response) {
+          return response;
+        },
+        function (error) {
+          if (error.response.status === 401) {
+            dispatch(signOut());
+          }
           return Promise.reject(error);
         }
       );
