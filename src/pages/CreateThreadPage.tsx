@@ -16,7 +16,7 @@ const CreateThreadPage = () => {
           minHeight="auto"
         >
           <Box mr={10} height="auto">
-            <ThreadForm mode="create" />
+            <ThreadForm />
           </Box>
         </SideImageLayout>
       </Container>

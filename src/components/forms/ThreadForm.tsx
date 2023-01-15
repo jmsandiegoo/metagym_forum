@@ -1,42 +1,68 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  unstable_useEnhancedEffect,
+} from "@mui/material";
+import axios from "axios";
+import { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
   setErrorFeedback,
   setSuccessFeedback,
 } from "../../store/feedbackSlice";
-import { createThread } from "../../store/threadThunks";
-import { ThreadRequest } from "../../types";
+import { createThread, updateThread } from "../../store/threadThunks";
+import { Thread, ThreadRequest, ThreadResponse } from "../../types";
 import InterestInput from "./InterestInput";
 import TextInput from "./TextInput";
 
 interface ThreadFormProps {
-  mode: "create" | "edit";
+  thread?: Thread;
 }
 
-const ThreadForm = ({ mode }: ThreadFormProps) => {
-  const { loading: authLoading, authUser } = useAppSelector(
-    (state) => state.auth
-  );
+const ThreadForm = ({ thread }: ThreadFormProps) => {
+  const { loading: authLoading } = useAppSelector((state) => state.auth);
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const methods = useForm<ThreadRequest>({
-    defaultValues: {
-      interests: [],
-    },
+    defaultValues: thread
+      ? {
+          threadId: thread.threadId,
+          title: thread.title,
+          body: thread.body,
+          interests: thread.interests.map((interest) => interest.interestId),
+        }
+      : {
+          interests: [],
+        },
   });
 
   const threadHandler: SubmitHandler<ThreadRequest> = async (
     data: ThreadRequest
   ) => {
     try {
-      const _ = await dispatch(createThread(data)).unwrap();
-      dispatch(setSuccessFeedback("Thread created successfully"));
+      console.log(data);
+      let res: ThreadResponse;
+      if (!thread) {
+        res = await dispatch(createThread(data)).unwrap();
+        dispatch(setSuccessFeedback("Thread created successfully"));
+      } else {
+        res = await dispatch(updateThread(data)).unwrap();
+        dispatch(setSuccessFeedback("Thread edited successfully"));
+      }
+      navigate(`/thread/${res.thread.threadId}`);
     } catch (e) {
-      console.error(e);
-      dispatch(setErrorFeedback("Failed to create thread"));
+      if (axios.isAxiosError(e)) {
+        dispatch(setErrorFeedback(e.response?.data?.error || e.message));
+      } else {
+        dispatch(setErrorFeedback("An unexpected error occured"));
+      }
     }
   };
 
@@ -44,7 +70,9 @@ const ThreadForm = ({ mode }: ThreadFormProps) => {
     <FormProvider {...methods}>
       <Box component="form" onSubmit={methods.handleSubmit(threadHandler)}>
         <Stack spacing={7} pt={5}>
-          <Typography variant="h1">Create Thread</Typography>
+          <Typography variant="h1">
+            {thread ? "Edit" : "Create"} Thread
+          </Typography>
           <TextInput
             name="title"
             label="Title"
@@ -69,9 +97,9 @@ const ThreadForm = ({ mode }: ThreadFormProps) => {
               variant="contained"
               loading={authLoading}
             >
-              Create
+              {thread ? "Edit" : "Create"}
             </LoadingButton>
-            <Button variant="text" component={Link} to="/home">
+            <Button variant="text" onClick={() => navigate(-1)}>
               Back
             </Button>
           </Stack>

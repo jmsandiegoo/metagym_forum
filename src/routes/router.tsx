@@ -1,11 +1,13 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import App from "../App";
 import CreateThreadPage from "../pages/CreateThreadPage";
+import EditThreadPage from "../pages/EditThreadPage";
 import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
 import OnboardingPage from "../pages/OnboardingPage";
 import SignupPage from "../pages/SignupPage";
+import ThreadPage from "../pages/ThreadPage";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 
@@ -42,6 +44,14 @@ const threadRoutes = {
     {
       path: "create",
       element: <CreateThreadPage />,
+    },
+    {
+      path: ":threadId",
+      element: <ThreadPage />,
+    },
+    {
+      path: ":threadId/edit",
+      element: <EditThreadPage />,
     },
   ],
 };

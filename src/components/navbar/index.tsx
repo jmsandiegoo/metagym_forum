@@ -44,7 +44,7 @@ const Navbar = () => {
             alignItems="center"
             spacing={10}
           >
-            <UserDetails user={authUser} />
+            <UserDetails user={authUser} isRepEnabled />
             <Button
               variant="outlined"
               sx={{ paddingRight: 1, paddingLeft: 1 }}

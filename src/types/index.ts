@@ -51,6 +51,7 @@ export interface Thread {
     createdAt: Date,
     updatedAt: Date;
     userId: string;
+    user: User;
     comments: Comment[] | null;
     interests: Interest[];
     usersLiked: User[] | null;

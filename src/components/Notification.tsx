@@ -18,7 +18,7 @@ interface State {
 type TransitionProps = Omit<SlideProps, "direction">;
 
 function TransitionRight(props: TransitionProps) {
-  return <Slide {...props} direction="right" />;
+  return <Slide {...props} direction="left" />;
 }
 
 const Notification = () => {
@@ -76,7 +76,7 @@ const Notification = () => {
       onClose={handleClose}
       TransitionProps={{ onExited: handleExited }}
       TransitionComponent={TransitionRight}
-      anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
     >
       <Alert
         onClose={handleClose}
