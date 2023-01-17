@@ -99,6 +99,12 @@ export interface ThreadRequest {
     interests: string[];
 }
 
+export interface VoteRequest {
+    threadId: string;
+    commentId?: string;
+    flag: boolean;
+}
+
 //////////////////////
 // Response
 //////////////////////

@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { setErrorFeedback } from "../store/feedbackSlice";
-import { Thread, Comment } from "../types";
+import { Thread, Comment, VoteRequest } from "../types";
+import { downvoteThread, upvoteThread } from "../store/threadThunks";
 
 interface VoteButtonsProps {
   data: Thread | Comment;
@@ -32,51 +33,93 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
     return (obj as Thread).threadId !== undefined;
   };
 
-  const handleUpvote = async () => {
-    try {
-      if (isUpvoteActive)
-        // dispatch upvote
-        // setUpvoteActive
-        setVoteCount((prev) => prev + 1);
+  useEffect(() => {
+    const userLiked = data.usersLiked?.find(
+      (u) => u.userId === authUser?.userId
+    );
+    const userDisliked = data.usersDisliked?.find(
+      (u) => u.userId === authUser?.userId
+    );
+
+    if (userLiked) {
       setIsUpvoteActive(true);
-      setIsDownvoteActive(false);
+    }
+
+    if (userDisliked) {
+      setIsDownvoteActive(true);
+    }
+  }, [data]);
+
+  const handleUpvote = async () => {
+    const addVote = isDownvoteActive ? 2 : 1;
+
+    try {
+      const flagVal: boolean = !isUpvoteActive;
       if (typeIsThread) {
-        console.log("upvote thread");
+        dispatch(
+          upvoteThread({
+            threadId: data.threadId,
+            flag: flagVal,
+          })
+        );
       } else {
         console.log("upvote comment");
       }
+
+      if (isUpvoteActive) {
+        setVoteCount((prev) => prev - addVote);
+        setIsUpvoteActive(false);
+        setIsDownvoteActive(false);
+      } else {
+        setVoteCount((prev) => prev + addVote);
+        setIsUpvoteActive(true);
+        setIsDownvoteActive(false);
+      }
     } catch (e) {
+      setVoteCount((prev) => prev - addVote);
+      setIsUpvoteActive(false);
+      setIsDownvoteActive(false);
       if (axios.isAxiosError(e)) {
         dispatch(setErrorFeedback(e.response?.data?.error || e.message));
       } else {
         dispatch(setErrorFeedback("An unexpected error occured"));
       }
-      setVoteCount((prev) => prev + 1);
-      setIsUpvoteActive(false);
-      setIsDownvoteActive(false);
     }
   };
 
   const handleDownvote = async () => {
+    const subVote = isUpvoteActive ? 2 : 1;
     try {
       // dispatch downvote
-      setVoteCount((prev) => prev - 1);
-      setIsUpvoteActive(false);
-      setIsDownvoteActive(true);
+      const flagVal: boolean = !isDownvoteActive;
       if (typeIsThread) {
-        console.log("downvote thread");
+        dispatch(
+          downvoteThread({
+            threadId: data.threadId,
+            flag: flagVal,
+          })
+        );
       } else {
         console.log("downvote comment");
       }
+      if (isDownvoteActive) {
+        setVoteCount((prev) => prev + subVote);
+        setIsUpvoteActive(false);
+        setIsDownvoteActive(false);
+      } else {
+        setVoteCount((prev) => prev - subVote);
+        setIsUpvoteActive(false);
+        setIsDownvoteActive(true);
+      }
     } catch (e) {
+      setVoteCount((prev) => prev + subVote);
+      setIsUpvoteActive(false);
+      setIsDownvoteActive(false);
       if (axios.isAxiosError(e)) {
         dispatch(setErrorFeedback(e.response?.data?.error || e.message));
       } else {
         dispatch(setErrorFeedback("An unexpected error occured"));
       }
-      setVoteCount((prev) => prev - 1);
-      setIsUpvoteActive(false);
-      setIsDownvoteActive(false);
     }
   };
 

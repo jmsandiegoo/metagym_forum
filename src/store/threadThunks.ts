@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { threadId } from "worker_threads";
-import { ThreadRequest, ThreadResponse } from "../types";
+import { ThreadRequest, ThreadResponse, VoteRequest } from "../types";
 import { axiosInstance } from "../utilities/httpCommon";
 
 export const createThread = createAsyncThunk("thread/createThread", async (threadData: ThreadRequest, thunkAPI) => {
@@ -28,6 +28,23 @@ export const updateThread = createAsyncThunk("thread/updateThread", async (threa
         delete threadData["threadId"]
         const {data} = await axiosInstance.put<ThreadResponse>(`api/thread/${threadId}`, threadData);
         return data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+})
+export const upvoteThread = createAsyncThunk("thread/upvoteThread", async (voteData : VoteRequest, thunkAPI) => {
+    try {
+        const threadId = voteData.threadId as string
+        await axiosInstance.post(`api/thread/upvote/${threadId}`, {flag: voteData.flag});
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+})
+
+export const downvoteThread = createAsyncThunk("thread/downvoteThread", async (voteData : VoteRequest, thunkAPI) => {
+    try {
+        const threadId = voteData.threadId as string
+        await axiosInstance.post(`api/thread/downvote/${threadId}`, {flag: voteData.flag});
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
