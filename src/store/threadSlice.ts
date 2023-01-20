@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Thread } from "../types";
-import { createThread, fetchThread, updateThread } from "./threadThunks";
+import { createThread, fetchThread, searchThread, updateThread } from "./threadThunks";
 
 interface StateType {
     threads: Thread[];
@@ -48,6 +48,16 @@ const threadSlice = createSlice({
             state.currentThread = action.payload.thread
         })
         builder.addCase(updateThread.rejected, (state, action) => {
+            state.loading = false;
+        })
+        builder.addCase(searchThread.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(searchThread.fulfilled, (state, action) => {
+            state.loading = false;
+            state.threads = action.payload.result;
+        })
+        builder.addCase(searchThread.rejected, (state, action) => {
             state.loading = false;
         })
     }

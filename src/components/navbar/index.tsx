@@ -2,19 +2,27 @@ import { AppBar, Box, Button, Container, Stack } from "@mui/material";
 import Img from "../Image";
 import logo_img from "../../assets/Logo.png";
 import TextInput from "../forms/TextInput";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import UserDetails from "../UserDetails";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { signOut } from "../../store/authThunks";
+import InterestInput from "../forms/InterestInput";
+import SearchInput from "../forms/SearchInput";
+import { SearchRequest } from "../../types";
 
-interface SearchReq {
-  interests: string[];
-}
+export type SearchInputData = {
+  search: SearchRequest;
+};
 
 const Navbar = () => {
   const { authUser } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const methods = useForm<SearchReq>();
+  const methods = useForm<SearchInputData>({
+    defaultValues: {
+      search: { title: "", interests: [] },
+    },
+  });
+
   return (
     <AppBar position="relative">
       <Container maxWidth="xl">
@@ -33,8 +41,13 @@ const Navbar = () => {
           {/* TODO SEARCH */}
           <Stack direction="row" justifyContent="center" flexGrow={1}>
             <FormProvider {...methods}>
-              <Box width="100%" maxWidth={600}>
-                <TextInput name="search" label="Search Threads" />
+              <Box
+                component="form"
+                width="100%"
+                maxWidth={600}
+                // onSubmit={methods.handleSubmit(searchHandler)}
+              >
+                <SearchInput label="Search" />
               </Box>
             </FormProvider>
           </Stack>

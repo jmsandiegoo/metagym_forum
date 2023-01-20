@@ -105,6 +105,12 @@ export interface VoteRequest {
     flag: boolean;
 }
 
+export interface SearchRequest {
+    interests: string[]; 
+    title: "";
+}
+
+
 //////////////////////
 // Response
 //////////////////////
@@ -128,6 +134,10 @@ export interface InterestsResponse {
 
 export interface ThreadResponse {
     thread: Thread;
+}
+
+export interface SearchThreadResponse {
+    result: Thread[];
 }
 
 //////////////////////

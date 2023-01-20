@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { threadId } from "worker_threads";
-import { ThreadRequest, ThreadResponse, VoteRequest } from "../types";
+import { SearchRequest, SearchThreadResponse, ThreadRequest, ThreadResponse, VoteRequest } from "../types";
 import { axiosInstance } from "../utilities/httpCommon";
 
 export const createThread = createAsyncThunk("thread/createThread", async (threadData: ThreadRequest, thunkAPI) => {
@@ -24,7 +24,7 @@ export const fetchThread = createAsyncThunk("thread/fetchThread", async (threadI
  
 export const updateThread = createAsyncThunk("thread/updateThread", async (threadData: ThreadRequest, thunkAPI) => {
     try {
-        const threadId = threadData.threadId as string
+        const threadId: string = threadData.threadId as string
         delete threadData["threadId"]
         const {data} = await axiosInstance.put<ThreadResponse>(`api/thread/${threadId}`, threadData);
         return data;
@@ -34,7 +34,7 @@ export const updateThread = createAsyncThunk("thread/updateThread", async (threa
 })
 export const upvoteThread = createAsyncThunk("thread/upvoteThread", async (voteData : VoteRequest, thunkAPI) => {
     try {
-        const threadId = voteData.threadId as string
+        const threadId: string = voteData.threadId as string
         await axiosInstance.post(`api/thread/upvote/${threadId}`, {flag: voteData.flag});
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
@@ -43,8 +43,33 @@ export const upvoteThread = createAsyncThunk("thread/upvoteThread", async (voteD
 
 export const downvoteThread = createAsyncThunk("thread/downvoteThread", async (voteData : VoteRequest, thunkAPI) => {
     try {
-        const threadId = voteData.threadId as string
+        const threadId: string = voteData.threadId as string
         await axiosInstance.post(`api/thread/downvote/${threadId}`, {flag: voteData.flag});
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+})
+
+export const searchThread = createAsyncThunk("thread/searchThread", async (searchData : SearchRequest, thunkAPI) => {
+    try {
+        console.log(searchData);
+        let queryparams: string = `?`
+        if (searchData.title) {
+            queryparams += `title=${searchData.title}`;
+        }
+        
+        if (searchData.interests) {
+            for (let i = 0; i < searchData.interests.length; i++) {
+                if (searchData.title) {
+                    queryparams += "&"
+                }
+                queryparams += `interests=${searchData.interests[i]}`
+            }
+        }
+
+        const {data} = await axiosInstance.get<SearchThreadResponse>(`api/search${queryparams}`);
+        return data;
+
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }

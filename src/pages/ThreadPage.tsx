@@ -27,10 +27,10 @@ import { current } from "@reduxjs/toolkit";
 
 interface ThreadContentProps {
   thread: Thread;
-  authUser: User;
 }
 
-const ThreadContent = ({ thread, authUser }: ThreadContentProps) => {
+const ThreadContent = ({ thread }: ThreadContentProps) => {
+  const { authUser } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const menuOptions: MenuOption[] = [
@@ -50,7 +50,7 @@ const ThreadContent = ({ thread, authUser }: ThreadContentProps) => {
     <Stack spacing={2}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h1">{thread.title}</Typography>
-        {thread.user.userId === authUser.userId && (
+        {thread.user.userId === authUser?.userId && (
           <MenuPopper options={menuOptions} />
         )}
       </Stack>
@@ -75,8 +75,6 @@ const ThreadContent = ({ thread, authUser }: ThreadContentProps) => {
 const ThreadPage = () => {
   const { loading: threadLoading } = useAppSelector((state) => state.thread);
   const { currentThread } = useAppSelector((state) => state.thread);
-  const { authUser } = useAppSelector((state) => state.auth);
-
   const dispatch = useAppDispatch();
   const { threadId } = useParams();
 
@@ -115,10 +113,7 @@ const ThreadPage = () => {
           <LoadingSpinner text="Fetching Thread Details" />
         ) : (
           <>
-            <ThreadContent
-              thread={currentThread as Thread}
-              authUser={authUser as User}
-            />
+            <ThreadContent thread={currentThread as Thread} />
           </>
         )}
       </Container>
