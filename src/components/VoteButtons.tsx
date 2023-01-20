@@ -2,7 +2,7 @@ import { IconButton, Stack } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { setErrorFeedback } from "../store/feedbackSlice";
 import { Thread, Comment, VoteRequest } from "../types";
@@ -50,7 +50,9 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
     }
   }, [data]);
 
-  const handleUpvote = async () => {
+  const handleUpvote = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     const addVote = isDownvoteActive ? 2 : 1;
 
     try {
@@ -87,7 +89,9 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
     }
   };
 
-  const handleDownvote = async () => {
+  const handleDownvote = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     const subVote = isUpvoteActive ? 2 : 1;
     try {
       // dispatch downvote
@@ -125,14 +129,26 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
 
   return (
     <Stack direction="row" alignItems="center">
-      <IconButton aria-label="upvote" size="small" onClick={handleUpvote}>
+      <IconButton
+        aria-label="upvote"
+        size="small"
+        onTouchStart={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => handleUpvote(e)}
+      >
         <ArrowUpwardIcon
           fontSize="small"
           {...(isUpvoteActive && { color: "primary" })}
         />
       </IconButton>
       {voteCount}
-      <IconButton aria-label="downvote" size="small" onClick={handleDownvote}>
+      <IconButton
+        aria-label="downvote"
+        size="small"
+        onTouchStart={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={handleDownvote}
+      >
         <ArrowDownwardIcon
           fontSize="small"
           {...(isDownvoteActive && { color: "primary" })}

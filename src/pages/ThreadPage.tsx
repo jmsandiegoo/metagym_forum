@@ -77,6 +77,7 @@ const ThreadPage = () => {
   const { currentThread } = useAppSelector((state) => state.thread);
   const dispatch = useAppDispatch();
   const { threadId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (threadId) {
@@ -107,7 +108,9 @@ const ThreadPage = () => {
     <MainLayout isAddButtonEnabled={true}>
       <Container>
         <Stack direction="row" justifyContent="flex-end" py={3}>
-          <Button variant="text">Back</Button>
+          <Button variant="text" onClick={() => navigate(-1)}>
+            Back
+          </Button>
         </Stack>
         {threadLoading ? (
           <LoadingSpinner text="Fetching Thread Details" />

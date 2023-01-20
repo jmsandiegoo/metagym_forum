@@ -60,7 +60,7 @@ export const searchThread = createAsyncThunk("thread/searchThread", async (searc
         
         if (searchData.interests) {
             for (let i = 0; i < searchData.interests.length; i++) {
-                if (searchData.title) {
+                if (searchData.title || i > 0) {
                     queryparams += "&"
                 }
                 queryparams += `interests=${searchData.interests[i]}`

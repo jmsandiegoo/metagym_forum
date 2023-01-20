@@ -1,9 +1,9 @@
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { Thread, User } from "../types";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { MenuOption } from "./MenuPopper";
-import { Card, Stack, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, Stack, Typography } from "@mui/material";
 import VoteButtons from "./VoteButtons";
 import InterestChip from "./InterestChip";
 import UserDetails from "./UserDetails";
@@ -32,23 +32,44 @@ const ThreadCard = ({ thread }: ThreadCardProps) => {
 
   return (
     <Card>
-      <Stack spacing={2}>
-        <Typography variant="h2">{thread.title}</Typography>
-      </Stack>
-      <Typography>{thread.body}</Typography>
-      <Stack direction="row">
-        <VoteButtons data={thread} />
-        <UserDetails
-          user={thread.user}
-          isRepEnabled={false}
-          date={new Date(thread.createdAt)}
-        />
-        <Stack direction="row">
-          {thread.interests.map((interest, i) => (
-            <InterestChip label={interest.name} key={i} />
-          ))}
+      <CardActionArea
+        component={RouterLink}
+        to={`/thread/${thread.threadId}`}
+        sx={{ px: 2, py: 3 }}
+      >
+        <Stack spacing={3}>
+          <Stack spacing={2}>
+            <Typography variant="h2">{thread.title}</Typography>
+          </Stack>
+          <Box
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              height: "100px",
+            }}
+          >
+            <Typography>{thread.body}</Typography>
+          </Box>
+          <Stack direction="row" alignItems="center">
+            <VoteButtons data={thread} />
+            <UserDetails
+              user={thread.user}
+              isRepEnabled={false}
+              date={new Date(thread.createdAt)}
+            />
+            <Stack
+              direction="row"
+              flex={1}
+              justifyContent="flex-end"
+              spacing={1}
+            >
+              {thread.interests.map((interest, i) => (
+                <InterestChip label={interest.name} key={i} />
+              ))}
+            </Stack>
+          </Stack>
         </Stack>
-      </Stack>
+      </CardActionArea>
     </Card>
   );
 };
