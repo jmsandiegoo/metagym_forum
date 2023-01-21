@@ -7,7 +7,7 @@ import axios from "axios";
 import { setErrorFeedback } from "../store/feedbackSlice";
 import { Thread, Comment, VoteRequest } from "../types";
 import { downvoteThread, upvoteThread } from "../store/threadThunks";
-import { upvoteComment } from "../store/commentThunks";
+import { upvoteComment, downvoteComment } from "../store/commentThunks";
 
 interface VoteButtonsProps {
   data: Thread | Comment;
@@ -57,23 +57,6 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
     const addVote = isDownvoteActive ? 2 : 1;
 
     try {
-      const flagVal: boolean = !isUpvoteActive;
-      if (typeIsThread) {
-        dispatch(
-          upvoteThread({
-            threadId: (data as Thread).threadId,
-            flag: flagVal,
-          })
-        );
-      } else {
-        dispatch(
-          upvoteComment({
-            commentId: (data as Comment).commentId,
-            flag: flagVal,
-          })
-        );
-      }
-
       if (isUpvoteActive) {
         setVoteCount((prev) => prev - addVote);
         setIsUpvoteActive(false);
@@ -83,7 +66,26 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
         setIsUpvoteActive(true);
         setIsDownvoteActive(false);
       }
+
+      // dispatch upvote
+      const flagVal: boolean = !isUpvoteActive;
+      if (typeIsThread) {
+        await dispatch(
+          upvoteThread({
+            threadId: (data as Thread).threadId,
+            flag: flagVal,
+          })
+        ).unwrap();
+      } else {
+        await dispatch(
+          upvoteComment({
+            commentId: (data as Comment).commentId,
+            flag: flagVal,
+          })
+        ).unwrap();
+      }
     } catch (e) {
+      console.log("error occuredd");
       setVoteCount((prev) => prev - addVote);
       setIsUpvoteActive(false);
       setIsDownvoteActive(false);
@@ -100,18 +102,6 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
     e.stopPropagation();
     const subVote = isUpvoteActive ? 2 : 1;
     try {
-      // dispatch downvote
-      const flagVal: boolean = !isDownvoteActive;
-      if (typeIsThread) {
-        dispatch(
-          downvoteThread({
-            threadId: data.threadId,
-            flag: flagVal,
-          })
-        );
-      } else {
-        console.log("downvote comment");
-      }
       if (isDownvoteActive) {
         setVoteCount((prev) => prev + subVote);
         setIsUpvoteActive(false);
@@ -120,6 +110,24 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
         setVoteCount((prev) => prev - subVote);
         setIsUpvoteActive(false);
         setIsDownvoteActive(true);
+      }
+
+      // dispatch downvote
+      const flagVal: boolean = !isDownvoteActive;
+      if (typeIsThread) {
+        await dispatch(
+          downvoteThread({
+            threadId: (data as Thread).threadId,
+            flag: flagVal,
+          })
+        ).unwrap();
+      } else {
+        await dispatch(
+          downvoteComment({
+            commentId: (data as Comment).commentId,
+            flag: flagVal,
+          })
+        ).unwrap();
       }
     } catch (e) {
       setVoteCount((prev) => prev + subVote);

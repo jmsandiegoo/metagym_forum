@@ -63,7 +63,13 @@ const MenuPopper = ({ options }: MenuPopperProps) => {
         }}
       >
         {options.map((option, i) => (
-          <MenuItem onClick={option.onClickHandler} key={i}>
+          <MenuItem
+            onClick={() => {
+              option.onClickHandler();
+              setAnchorEl(null);
+            }}
+            key={i}
+          >
             {option.icon && <ListItemIcon>{option.icon}</ListItemIcon>}
             <ListItemText>{option.label}</ListItemText>
           </MenuItem>

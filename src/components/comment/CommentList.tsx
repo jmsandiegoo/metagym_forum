@@ -16,8 +16,8 @@ const CommentList = ({ comments }: CommentListProps) => {
         <MessageOutlinedIcon sx={{ ml: 2, verticalAlign: "middle" }} />
       </Typography>
       <Stack spacing={4}>
-        {comments.map((c, i) => (
-          <CommentComponent comment={c} key={i} />
+        {comments.map((c) => (
+          <CommentComponent comment={c} key={c.commentId} />
         ))}
       </Stack>
     </Stack>

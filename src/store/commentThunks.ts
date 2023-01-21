@@ -21,6 +21,14 @@ export const createThreadComment = createAsyncThunk("comment/createThreadComment
     }
 })
 
+export const deleteThreadComment = createAsyncThunk("comment/deleteThreadComment", async (commentId: string, thunkAPI) => {
+    try {
+        await axiosInstance.delete(`api/comments/${commentId}`);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+})
+
 export const upvoteComment = createAsyncThunk("comment/upvoteComment", async (voteData : VoteRequest, thunkAPI) => {
     try {
         const commentId: string = voteData.commentId as string
@@ -33,8 +41,9 @@ export const upvoteComment = createAsyncThunk("comment/upvoteComment", async (vo
 export const downvoteComment = createAsyncThunk("comment/downvoteComment", async (voteData : VoteRequest, thunkAPI) => {
     try {
         const commentId: string = voteData.commentId as string
-        await axiosInstance.post(`api/threads/downvote/${commentId}`, {flag: voteData.flag});
+        await axiosInstance.post(`api/comments/downvote/${commentId}`, {flag: voteData.flag});
     } catch (error) {
+        console.log("error occurred");
         return thunkAPI.rejectWithValue(error);
     }
 })

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createThreadComment, fetchThreadComments } from "./commentThunks";
+import { createThreadComment, deleteThreadComment, fetchThreadComments } from "./commentThunks";
 import { Comment } from "../types";
 
 interface StateType {
@@ -33,9 +33,18 @@ const commentSlice = createSlice({
         })
         builder.addCase(createThreadComment.fulfilled, (state, action) => {
             state.loading = false;
-            state.comments = [...state.comments, action.payload.comment];
+            state.comments = [action.payload.comment, ...state.comments];
         })
         builder.addCase(createThreadComment.rejected, (state, action) => {
+            state.loading = false;
+        })
+        builder.addCase(deleteThreadComment.pending, (state, action) => {
+            state.loading = true;
+        })
+        builder.addCase(deleteThreadComment.fulfilled, (state, action) => {
+            state.loading = false;
+        })
+        builder.addCase(deleteThreadComment.rejected, (state, action) => {
             state.loading = false;
         })
     }
