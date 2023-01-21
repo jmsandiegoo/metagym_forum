@@ -40,7 +40,7 @@ export const signOut = createAsyncThunk("auth/signout", async () => {
 
 export const onboard = createAsyncThunk("auth/onboard", async (onboardData: OnboardRequest, thunkAPI) => {
     try {
-        const {data} = await axiosInstance.post<UserProfileResponse>("api/user/onboard", onboardData)
+        const {data} = await axiosInstance.post<UserProfileResponse>("api/users/onboard", onboardData)
         return data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -56,7 +56,7 @@ export const onboard = createAsyncThunk("auth/onboard", async (onboardData: Onbo
 export const fetchAuthUser = createAsyncThunk("auth/fetcAuthUser", async(_, thunkAPI) => {
     try {
         const token = getToken();
-        const {data} = await axiosInstance.get<UserResponse>("api/user/auth-user");
+        const {data} = await axiosInstance.get<UserResponse>("api/users/auth-user");
         const payload: UserJwtResponse = {
             jwt: token as string,
             user: data.user

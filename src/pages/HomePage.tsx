@@ -1,6 +1,6 @@
 import { Container, Stack } from "@mui/material";
 import LoadingSpinner from "../components/LoadingSpinner";
-import ThreadCard from "../components/ThreadCard";
+import ThreadCard from "../components/thread/ThreadCard";
 import { useAppSelector } from "../hooks/reduxHooks";
 import MainLayout from "../layouts/MainLayout";
 

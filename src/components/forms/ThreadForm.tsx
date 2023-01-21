@@ -25,7 +25,7 @@ interface ThreadFormProps {
 }
 
 const ThreadForm = ({ thread }: ThreadFormProps) => {
-  const { loading: authLoading } = useAppSelector((state) => state.auth);
+  const { loading } = useAppSelector((state) => state.thread);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -92,11 +92,7 @@ const ThreadForm = ({ thread }: ThreadFormProps) => {
           />
           <InterestInput label="Thread Interests" />
           <Stack direction="row" spacing={1}>
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              loading={authLoading}
-            >
+            <LoadingButton type="submit" variant="contained" loading={loading}>
               {thread ? "Edit" : "Create"}
             </LoadingButton>
             <Button variant="text" onClick={() => navigate(-1)}>

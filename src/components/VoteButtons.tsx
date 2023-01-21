@@ -7,6 +7,7 @@ import axios from "axios";
 import { setErrorFeedback } from "../store/feedbackSlice";
 import { Thread, Comment, VoteRequest } from "../types";
 import { downvoteThread, upvoteThread } from "../store/threadThunks";
+import { upvoteComment } from "../store/commentThunks";
 
 interface VoteButtonsProps {
   data: Thread | Comment;
@@ -30,7 +31,7 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
   }, []);
 
   const isThread = (obj: Thread | Comment): obj is Thread => {
-    return (obj as Thread).threadId !== undefined;
+    return (obj as Thread).title !== undefined;
   };
 
   useEffect(() => {
@@ -60,12 +61,17 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
       if (typeIsThread) {
         dispatch(
           upvoteThread({
-            threadId: data.threadId,
+            threadId: (data as Thread).threadId,
             flag: flagVal,
           })
         );
       } else {
-        console.log("upvote comment");
+        dispatch(
+          upvoteComment({
+            commentId: (data as Comment).commentId,
+            flag: flagVal,
+          })
+        );
       }
 
       if (isUpvoteActive) {

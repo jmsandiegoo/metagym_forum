@@ -2,79 +2,29 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   IconButton,
   Stack,
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import InterestChip from "../components/InterestChip";
+import CommentList from "../components/comment/CommentList";
+import CommentForm from "../components/forms/CommentForm";
 import LoadingSpinner from "../components/LoadingSpinner";
-import MenuPopper, { MenuOption } from "../components/MenuPopper";
-import UserDetails from "../components/UserDetails";
-import VoteButtons from "../components/VoteButtons";
+import ThreadContent from "../components/thread/ThreadContent";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import MainLayout from "../layouts/MainLayout";
+import { fetchThreadComments } from "../store/commentThunks";
 import { setErrorFeedback } from "../store/feedbackSlice";
 import { fetchThread } from "../store/threadThunks";
-import { Thread, User } from "../types";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { current } from "@reduxjs/toolkit";
-
-// const ThreadComments = () => {};
-
-interface ThreadContentProps {
-  thread: Thread;
-}
-
-const ThreadContent = ({ thread }: ThreadContentProps) => {
-  const { authUser } = useAppSelector((state) => state.auth);
-  const navigate = useNavigate();
-
-  const menuOptions: MenuOption[] = [
-    {
-      icon: <EditOutlinedIcon color="primary" />,
-      label: "Edit",
-      onClickHandler: () => navigate(`/thread/${thread.threadId}/edit`),
-    },
-    {
-      icon: <DeleteOutlinedIcon color="primary" />,
-      label: "Delete",
-      onClickHandler: () => console.log("edit thread"),
-    },
-  ];
-
-  return (
-    <Stack spacing={2}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography variant="h1">{thread.title}</Typography>
-        {thread.user.userId === authUser?.userId && (
-          <MenuPopper options={menuOptions} />
-        )}
-      </Stack>
-      <UserDetails
-        user={thread.user}
-        isRepEnabled
-        date={new Date(thread.createdAt)}
-      />
-      <Typography>{thread.body}</Typography>
-      <Stack direction="row" justifyContent="space-between">
-        <VoteButtons data={thread} />
-        <Stack direction="row" spacing={1}>
-          {thread.interests.map((interest, i) => (
-            <InterestChip label={interest.name} key={i} />
-          ))}
-        </Stack>
-      </Stack>
-    </Stack>
-  );
-};
+import { Thread } from "../types";
 
 const ThreadPage = () => {
   const { loading: threadLoading } = useAppSelector((state) => state.thread);
   const { currentThread } = useAppSelector((state) => state.thread);
+  const { comments } = useAppSelector((state) => state.comment);
   const dispatch = useAppDispatch();
   const { threadId } = useParams();
   const navigate = useNavigate();
@@ -83,7 +33,8 @@ const ThreadPage = () => {
     if (threadId) {
       (async () => {
         try {
-          const _ = await dispatch(fetchThread(threadId as string)).unwrap();
+          await dispatch(fetchThread(threadId as string)).unwrap();
+          await dispatch(fetchThreadComments(threadId as string)).unwrap();
         } catch (e) {
           if (axios.isAxiosError(e)) {
             if (e.response?.status === 404) {
@@ -115,9 +66,11 @@ const ThreadPage = () => {
         {threadLoading ? (
           <LoadingSpinner text="Fetching Thread Details" />
         ) : (
-          <>
+          <Stack spacing={2}>
             <ThreadContent thread={currentThread as Thread} />
-          </>
+            <CommentForm threadId={currentThread.threadId} />
+            <CommentList comments={comments} />
+          </Stack>
         )}
       </Container>
     </MainLayout>

@@ -1,13 +1,13 @@
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { Thread, User } from "../types";
+import { Thread, User } from "../../types";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { MenuOption } from "./MenuPopper";
+import { MenuOption } from "../MenuPopper";
 import { Box, Card, CardActionArea, Stack, Typography } from "@mui/material";
-import VoteButtons from "./VoteButtons";
-import InterestChip from "./InterestChip";
-import UserDetails from "./UserDetails";
-import { useAppSelector } from "../hooks/reduxHooks";
+import VoteButtons from "../VoteButtons";
+import InterestChip from "../InterestChip";
+import UserDetails from "../UserDetails";
+import { useAppSelector } from "../../hooks/reduxHooks";
 
 interface ThreadCardProps {
   thread: Thread;

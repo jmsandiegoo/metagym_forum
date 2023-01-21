@@ -63,4 +63,4 @@ const threadSlice = createSlice({
     }
 })
 
-export default threadSlice.reducer
+export default threadSlice.reducer;

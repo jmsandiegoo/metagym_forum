@@ -1,7 +1,9 @@
 import { createTheme } from "@mui/material";
 
 const primaryColor: string = '#FF3739';
+const accentColor: string = '#989898';
 const backgroundColor: string = '#121212';
+
 const theme = createTheme({
     palette: {
       mode: 'dark',
@@ -11,7 +13,7 @@ const theme = createTheme({
       },
 			primary: {
 				main: primaryColor
-			}
+			},
     },
 		typography: {
 			h1: {

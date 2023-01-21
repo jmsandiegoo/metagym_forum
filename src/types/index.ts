@@ -99,8 +99,14 @@ export interface ThreadRequest {
     interests: string[];
 }
 
-export interface VoteRequest {
+export interface CommentRequest {
+    commentId?: string;
+    body: string;
     threadId: string;
+}
+
+export interface VoteRequest {
+    threadId?: string;
     commentId?: string;
     flag: boolean;
 }
@@ -138,6 +144,14 @@ export interface ThreadResponse {
 
 export interface SearchThreadResponse {
     result: Thread[];
+}
+
+export interface CommentsResponse {
+    comments: Comment[];
+}
+
+export interface CommentResponse {
+    comment: Comment;
 }
 
 //////////////////////

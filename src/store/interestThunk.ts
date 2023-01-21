@@ -5,7 +5,7 @@ import { axiosInstance } from "../utilities/httpCommon";
 
 export const fetchInterests = createAsyncThunk("interest/fetchInterests", async (_, thunkAPI) => {
     try {
-        const {data} = await axiosInstance.get<InterestsResponse>("api/interest/");
+        const {data} = await axiosInstance.get<InterestsResponse>("api/interests/");
         return data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
