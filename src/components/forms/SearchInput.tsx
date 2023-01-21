@@ -56,6 +56,7 @@ const SearchInput = ({ label }: SearchInputProps) => {
     data: SearchInputData
   ) => {
     try {
+      console.log(data);
       const _ = await dispatch(searchThread(data.search)).unwrap();
       // change url of home
     } catch (e) {
@@ -138,11 +139,11 @@ const SearchInput = ({ label }: SearchInputProps) => {
             onChange={(_, data) => {
               field.onChange({
                 title: value.title,
-                interests: data.map((d) => {
-                  if (typeof d !== "string") {
-                    return d.value;
-                  }
-                }),
+                interests: data
+                  .filter((d) => typeof d !== "string")
+                  .map((d) => {
+                    return (d as OptionType).value;
+                  }),
               });
             }}
             onKeyDown={(e) => {
