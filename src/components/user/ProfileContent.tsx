@@ -4,6 +4,7 @@ import InterestChip from "../InterestChip";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { User } from "../../types";
 import { useAppSelector } from "../../hooks/reduxHooks";
+import { Link } from "react-router-dom";
 
 interface ProfileContentProps {
   user: User;
@@ -35,7 +36,13 @@ const ProfileContent = ({ user }: ProfileContentProps) => {
             {user.firstName} {user.lastName}
           </Typography>
           {authUser?.userId === user.userId && (
-            <Button variant="contained">Edit Profile</Button>
+            <Button
+              component={Link}
+              to={`/user/${user.userId}/edit`}
+              variant="contained"
+            >
+              Edit Profile
+            </Button>
           )}
         </Stack>
         <Typography variant="subtitle1" color={"palette.disabled"}>

@@ -88,7 +88,15 @@ export interface SignupRequest {
     password: string;
 }
 
+export type UpdateAccountRequest = {
+    userId: string;
+} & SignupRequest
+
 export type OnboardRequest = Pick<UserProfile, "pfpUrl" | "bio" | "experience" | "country" | "height" | "weight" | "age"> & {
+    interests: string[]
+}
+
+export type UpdateProfileRequest = Omit<UserProfile, "createdAt" | "updatedAt" | "rep"> & {
     interests: string[]
 }
 

@@ -11,6 +11,7 @@ import ThreadPage from "../pages/ThreadPage";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import ProfilePage from "../pages/ProfilePage";
+import EditProfilePage from "../pages/EditProfilePage";
 
 const authRoutes = {
   path: "/auth",
@@ -38,6 +39,10 @@ const userRoutes = {
     {
       path: ":userId",
       element: <ProfilePage />,
+    },
+    {
+      path: ":userId/edit",
+      element: <EditProfilePage />,
     },
   ],
 };
