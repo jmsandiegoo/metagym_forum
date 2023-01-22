@@ -3,7 +3,11 @@ import { Box, Stack } from "@mui/material";
 import axios from "axios";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { createThreadComment } from "../../store/commentThunks";
+import {
+  createThreadComment,
+  fetchThreadComments,
+  updateThreadComment,
+} from "../../store/commentThunks";
 import {
   setErrorFeedback,
   setSuccessFeedback,
@@ -15,9 +19,14 @@ import TextInput from "./TextInput";
 interface CommentFormProps {
   comment?: Comment;
   threadId?: string;
+  otherEditHandler?: () => void;
 }
 
-const CommentForm = ({ comment, threadId }: CommentFormProps) => {
+const CommentForm = ({
+  comment,
+  threadId,
+  otherEditHandler,
+}: CommentFormProps) => {
   const { loading } = useAppSelector((state) => state.comment);
   const dispatch = useAppDispatch();
   const methods = useForm<CommentRequest>({
@@ -41,8 +50,10 @@ const CommentForm = ({ comment, threadId }: CommentFormProps) => {
         dispatch(setSuccessFeedback("Comment created successfully"));
         methods.reset({ body: "" });
       } else {
-        console.log("edit comment");
+        await dispatch(updateThreadComment(data)).unwrap();
+        await dispatch(fetchThreadComments(data.threadId)).unwrap();
         dispatch(setSuccessFeedback("Comment edited successfully"));
+        otherEditHandler && otherEditHandler();
       }
     } catch (e) {
       if (axios.isAxiosError(e)) {
@@ -59,7 +70,7 @@ const CommentForm = ({ comment, threadId }: CommentFormProps) => {
         <Stack spacing={2}>
           <TextInput
             name="body"
-            label="Comment"
+            label={`${comment && "Edit"} Comment`}
             TextFieldProps={{
               multiline: true,
               rows: 4,

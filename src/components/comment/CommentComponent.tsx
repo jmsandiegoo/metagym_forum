@@ -4,6 +4,7 @@ import { Comment } from "../../types";
 import MenuPopper, { MenuOption } from "../MenuPopper";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { Stack, Typography } from "@mui/material";
 import UserDetails from "../UserDetails";
 import VoteButtons from "../VoteButtons";
@@ -19,6 +20,7 @@ import {
   fetchThreadComments,
 } from "../../store/commentThunks";
 import axios from "axios";
+import CommentForm from "../forms/CommentForm";
 
 interface CommentComponentProps {
   comment: Comment;
@@ -28,15 +30,31 @@ const CommentComponent = ({ comment }: CommentComponentProps) => {
   const { loading } = useAppSelector((state) => state.comment);
   const { authUser } = useAppSelector((state) => state.auth);
   const [open, setOpen] = useState<boolean>(false);
+  const [edit, setEdit] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
-  const menuOptions: MenuOption[] = [
-    {
-      icon: <DeleteOutlinedIcon color="primary" />,
-      label: "Delete",
-      onClickHandler: () => setOpen(true),
-    },
-  ];
+  const menuOptions: MenuOption[] = edit
+    ? [
+        {
+          icon: <CancelOutlinedIcon color="primary" />,
+          label: "Cancel",
+          onClickHandler: () => handleCancelEdit(),
+        },
+      ]
+    : [
+        {
+          icon: <EditOutlinedIcon color="primary" />,
+          label: "Edit",
+          onClickHandler: () => setEdit(true),
+        },
+        {
+          icon: <DeleteOutlinedIcon color="primary" />,
+          label: "Delete",
+          onClickHandler: () => setOpen(true),
+        },
+      ];
+
+  const handleCancelEdit = () => setEdit(false);
 
   const handleDelete = async () => {
     try {
@@ -77,8 +95,11 @@ const CommentComponent = ({ comment }: CommentComponentProps) => {
             <MenuPopper options={menuOptions} />
           )}
         </Stack>
-
-        <Typography>{comment.body}</Typography>
+        {edit ? (
+          <CommentForm comment={comment} otherEditHandler={handleCancelEdit} />
+        ) : (
+          <Typography>{comment.body}</Typography>
+        )}
         <Stack direction="row" justifyContent="space-between">
           <VoteButtons data={comment} />
         </Stack>

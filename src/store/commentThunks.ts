@@ -21,6 +21,18 @@ export const createThreadComment = createAsyncThunk("comment/createThreadComment
     }
 })
 
+export const updateThreadComment = createAsyncThunk("comment/updateThreadComment", async (commentData: CommentRequest, thunkAPI) => {
+    try {
+        const commentId: string = commentData.commentId as string
+        delete commentData["commentId"]
+        const {data} = await axiosInstance.put<CommentResponse>(`api/comments/${commentId}`, commentData);
+        return data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+})
+
+
 export const deleteThreadComment = createAsyncThunk("comment/deleteThreadComment", async (commentId: string, thunkAPI) => {
     try {
         await axiosInstance.delete(`api/comments/${commentId}`);
