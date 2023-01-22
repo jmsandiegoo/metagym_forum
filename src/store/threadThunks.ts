@@ -33,6 +33,14 @@ export const updateThread = createAsyncThunk("thread/updateThread", async (threa
     }
 })
 
+export const deleteThread = createAsyncThunk("thread/deleteThread", async (threadId: string, thunkAPI) => {
+    try {
+        await axiosInstance.delete(`api/threads/${threadId}`);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+})
+
 export const upvoteThread = createAsyncThunk("thread/upvoteThread", async (voteData : VoteRequest, thunkAPI) => {
     try {
         const threadId: string = voteData.threadId as string

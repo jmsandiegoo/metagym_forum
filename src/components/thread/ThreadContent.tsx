@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { Thread } from "../../types";
 import MenuPopper, { MenuOption } from "../MenuPopper";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -8,13 +8,24 @@ import { Stack, Typography } from "@mui/material";
 import UserDetails from "../UserDetails";
 import VoteButtons from "../VoteButtons";
 import InterestChip from "../InterestChip";
+import { useState } from "react";
+import { deleteThread } from "../../store/threadThunks";
+import {
+  setErrorFeedback,
+  setSuccessFeedback,
+} from "../../store/feedbackSlice";
+import axios from "axios";
+import DeleteDialog from "../dialog/DeleteDialog";
 
 interface ThreadContentProps {
   thread: Thread;
+  loading: boolean;
 }
 
-const ThreadContent = ({ thread }: ThreadContentProps) => {
+const ThreadContent = ({ thread, loading }: ThreadContentProps) => {
   const { authUser } = useAppSelector((state) => state.auth);
+  const [open, setOpen] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const menuOptions: MenuOption[] = [
@@ -26,12 +37,35 @@ const ThreadContent = ({ thread }: ThreadContentProps) => {
     {
       icon: <DeleteOutlinedIcon color="primary" />,
       label: "Delete",
-      onClickHandler: () => console.log("edit thread"),
+      onClickHandler: () => setOpen(true),
     },
   ];
 
+  // delete Thread
+  const handleDelete = async () => {
+    try {
+      await dispatch(deleteThread(thread.threadId));
+      dispatch(setSuccessFeedback("Thread deleted successfully"));
+      setOpen(false);
+      navigate("/home");
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        dispatch(setErrorFeedback(e.response?.data?.error || e.message));
+      } else {
+        dispatch(setErrorFeedback("An unexpected error occured"));
+      }
+    }
+  };
+
   return (
     <Stack spacing={2}>
+      <DeleteDialog
+        open={open}
+        loading={loading}
+        itemName="thread"
+        onClickHandler={handleDelete}
+        onCloseHandler={() => setOpen(false)}
+      />
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h1">{thread.title}</Typography>
         {thread.user.userId === authUser?.userId && (

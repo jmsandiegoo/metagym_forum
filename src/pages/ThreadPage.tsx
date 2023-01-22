@@ -67,7 +67,10 @@ const ThreadPage = () => {
           <LoadingSpinner text="Fetching Thread Details" />
         ) : (
           <Stack spacing={2}>
-            <ThreadContent thread={currentThread as Thread} />
+            <ThreadContent
+              thread={currentThread as Thread}
+              loading={threadLoading}
+            />
             <CommentForm threadId={currentThread.threadId} />
             <CommentList comments={comments} />
           </Stack>
