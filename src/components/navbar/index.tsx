@@ -50,7 +50,10 @@ const Navbar = () => {
 
   const methods = useForm<SearchInputData>({
     defaultValues: {
-      search: { title: "", interests: [] },
+      search: {
+        title: searchParams.get("title") ?? "",
+        interests: searchParams.getAll("interests"),
+      },
     },
   });
 
