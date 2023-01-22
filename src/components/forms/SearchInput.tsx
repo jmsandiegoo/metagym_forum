@@ -39,7 +39,12 @@ const StyledOptionWrapper = styled("li")(({ theme }) => ({
   },
 }));
 
-const SearchInput = ({ label }: SearchInputProps) => {
+interface SearchInputProps {
+  label: string;
+  submitHandler: SubmitHandler<SearchInputData>;
+}
+
+const SearchInput = ({ label, submitHandler }: SearchInputProps) => {
   const [interestOptions, setInterestOptions] = useState<OptionType[]>([]);
   const { loading: interestLoading, interests } = useAppSelector(
     (state) => state.interest
@@ -51,22 +56,6 @@ const SearchInput = ({ label }: SearchInputProps) => {
   useEffect(() => {
     dispatch(fetchInterests());
   }, []);
-
-  const searchHandler: SubmitHandler<SearchInputData> = async (
-    data: SearchInputData
-  ) => {
-    try {
-      console.log(data);
-      const _ = await dispatch(searchThread(data.search)).unwrap();
-      // change url of home
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        dispatch(setErrorFeedback(e.response?.data?.error || e.message));
-      } else {
-        dispatch(setErrorFeedback("An unexpected error occured"));
-      }
-    }
-  };
 
   useEffect(() => {
     if (interests.length !== 0) {
@@ -149,7 +138,7 @@ const SearchInput = ({ label }: SearchInputProps) => {
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                handleSubmit(searchHandler)();
+                handleSubmit(submitHandler)();
               }
             }}
           ></Autocomplete>

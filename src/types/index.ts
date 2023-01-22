@@ -113,7 +113,7 @@ export interface VoteRequest {
 
 export interface SearchRequest {
     interests: string[]; 
-    title: "";
+    title: string;
 }
 
 

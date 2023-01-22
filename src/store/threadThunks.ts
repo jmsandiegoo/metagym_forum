@@ -3,6 +3,7 @@ import axios from "axios";
 import { threadId } from "worker_threads";
 import { SearchRequest, SearchThreadResponse, ThreadRequest, ThreadResponse, VoteRequest } from "../types";
 import { axiosInstance } from "../utilities/httpCommon";
+import { mapQueryString } from "../utilities/helper";
 
 export const createThread = createAsyncThunk("thread/createThread", async (threadData: ThreadRequest, thunkAPI) => {
     try {
@@ -61,22 +62,8 @@ export const downvoteThread = createAsyncThunk("thread/downvoteThread", async (v
 
 export const searchThread = createAsyncThunk("thread/searchThread", async (searchData : SearchRequest, thunkAPI) => {
     try {
-        console.log(searchData);
-        let queryparams: string = `?`
-        if (searchData.title) {
-            queryparams += `title=${searchData.title}`;
-        }
-        
-        if (searchData.interests) {
-            for (let i = 0; i < searchData.interests.length; i++) {
-                if (searchData.title || i > 0) {
-                    queryparams += "&"
-                }
-                queryparams += `interests=${searchData.interests[i]}`
-            }
-        }
-
-        const {data} = await axiosInstance.get<SearchThreadResponse>(`api/search${queryparams}`);
+        const queryString = mapQueryString(searchData);
+        const {data} = await axiosInstance.get<SearchThreadResponse>(`api/search${queryString}`);
         return data;
 
     } catch (error) {
