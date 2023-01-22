@@ -64,7 +64,7 @@ const ThreadPage = () => {
           </Button>
         </Stack>
         {threadLoading ? (
-          <LoadingSpinner text="Fetching Thread Details" />
+          <LoadingSpinner text="Fetching thread details" />
         ) : (
           <Stack spacing={2}>
             <ThreadContent

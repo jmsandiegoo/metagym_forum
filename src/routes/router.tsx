@@ -10,6 +10,7 @@ import SignupPage from "../pages/SignupPage";
 import ThreadPage from "../pages/ThreadPage";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
+import ProfilePage from "../pages/ProfilePage";
 
 const authRoutes = {
   path: "/auth",
@@ -33,6 +34,10 @@ const userRoutes = {
     {
       path: "onboard",
       element: <OnboardingPage />,
+    },
+    {
+      path: ":userId",
+      element: <ProfilePage />,
     },
   ],
 };

@@ -3,7 +3,7 @@ import Img from "../Image";
 import logo_img from "../../assets/Logo.png";
 import TextInput from "../forms/TextInput";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import UserDetails from "../UserDetails";
+import UserDetails from "../user/UserDetails";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { signOut } from "../../store/authThunks";
 import InterestInput from "../forms/InterestInput";

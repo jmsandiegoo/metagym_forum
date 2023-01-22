@@ -1,7 +1,8 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { useAppSelector } from "../hooks/reduxHooks";
-import { User } from "../types";
-import AvatarImg from "./AvatarImg";
+import { Box, CardActionArea, Link, Stack, Typography } from "@mui/material";
+import { useAppSelector } from "../../hooks/reduxHooks";
+import { Link as RouterLink } from "react-router-dom";
+import { User } from "../../types";
+import AvatarImg from "../AvatarImg";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
 interface UserDetailsProps {
@@ -20,7 +21,15 @@ const UserDetails = ({ user, isRepEnabled, date }: UserDetailsProps) => {
           height="50px"
         />
         <Stack>
-          <Typography color="primary">{user?.username}</Typography>
+          <Link
+            component={RouterLink}
+            variant="body1"
+            to={`/user/${user?.userId}`}
+            underline="hover"
+          >
+            {user?.username}
+          </Link>
+          {/* <Typography color="primary">{user?.username}</Typography> */}
           {isRepEnabled && (
             <Typography>
               {user?.profile?.rep}{" "}

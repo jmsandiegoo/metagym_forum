@@ -6,7 +6,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { Stack, Typography } from "@mui/material";
-import UserDetails from "../UserDetails";
+import UserDetails from "../user/UserDetails";
 import VoteButtons from "../VoteButtons";
 import InterestChip from "../InterestChip";
 import { useState } from "react";

@@ -6,7 +6,7 @@ import { MenuOption } from "../MenuPopper";
 import { Box, Card, CardActionArea, Stack, Typography } from "@mui/material";
 import VoteButtons from "../VoteButtons";
 import InterestChip from "../InterestChip";
-import UserDetails from "../UserDetails";
+import UserDetails from "../user/UserDetails";
 import { useAppSelector } from "../../hooks/reduxHooks";
 
 interface ThreadCardProps {

@@ -4,6 +4,7 @@ import interestReducer from "./interestSlice";
 import threadReducer from "./threadSlice";
 import feedbackReducer from "./feedbackSlice";
 import commentReducer from "./commentSlice";
+import userReducer from "./userSlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         thread: threadReducer,
         feedback: feedbackReducer,
         comment: commentReducer,
+        user: userReducer,
     },
 })
 
