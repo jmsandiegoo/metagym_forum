@@ -39,6 +39,7 @@ const CommentForm = ({ comment, threadId }: CommentFormProps) => {
       if (!comment) {
         await dispatch(createThreadComment(data)).unwrap();
         dispatch(setSuccessFeedback("Comment created successfully"));
+        methods.reset({ body: "" });
       } else {
         console.log("edit comment");
         dispatch(setSuccessFeedback("Comment edited successfully"));
