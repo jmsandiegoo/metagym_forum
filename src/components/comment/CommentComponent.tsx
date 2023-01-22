@@ -40,8 +40,8 @@ const CommentComponent = ({ comment }: CommentComponentProps) => {
 
   const handleDelete = async () => {
     try {
-      await dispatch(deleteThreadComment(comment.commentId));
-      await dispatch(fetchThreadComments(comment.threadId));
+      await dispatch(deleteThreadComment(comment.commentId)).unwrap();
+      await dispatch(fetchThreadComments(comment.threadId)).unwrap();
       dispatch(setSuccessFeedback("Comment deleted successfully"));
       setOpen(false);
     } catch (e) {

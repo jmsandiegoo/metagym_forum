@@ -44,7 +44,7 @@ const ThreadContent = ({ thread, loading }: ThreadContentProps) => {
   // delete Thread
   const handleDelete = async () => {
     try {
-      await dispatch(deleteThread(thread.threadId));
+      await dispatch(deleteThread(thread.threadId)).unwrap();
       dispatch(setSuccessFeedback("Thread deleted successfully"));
       setOpen(false);
       navigate("/home");
