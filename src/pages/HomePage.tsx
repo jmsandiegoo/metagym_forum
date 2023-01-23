@@ -5,22 +5,8 @@ import { useAppSelector } from "../hooks/reduxHooks";
 import MainLayout from "../layouts/MainLayout";
 import ThreadList from "../components/thread/ThreadList";
 
-const ThreadCardList = () => {
-  const { loading, threads } = useAppSelector((state) => state.thread);
-
-  return loading ? (
-    <LoadingSpinner text="Fetching Threads..." />
-  ) : (
-    <Stack spacing={2}>
-      {threads.map((t, i) => (
-        <ThreadCard key={i} thread={t} />
-      ))}
-    </Stack>
-  );
-};
-
 const HomePage = () => {
-  const { loading, threads } = useAppSelector((state) => state.thread);
+  const { loading, threads, error } = useAppSelector((state) => state.thread);
   return (
     <MainLayout isAddButtonEnabled>
       <Container>

@@ -165,6 +165,16 @@ export interface CommentResponse {
 //////////////////////
 // Others
 //////////////////////
+
+export type ThunkConfig = {
+    rejectValue: Error;
+}
+
+export type Error = {
+    status?: number,
+    message: string
+}
+
 export type CountryType = { phone: string } & OptionType
 export interface OptionType {
     label: string;

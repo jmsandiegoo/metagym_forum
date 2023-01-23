@@ -12,6 +12,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
+import ErrorInfoPage from "../pages/ErrorPage";
 
 const authRoutes = {
   path: "/auth",
@@ -70,6 +71,12 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: (
+      <ErrorInfoPage
+        title={"An Error Occured"}
+        description={"Please try to reload the page."}
+      />
+    ),
     children: [
       {
         index: true,
@@ -90,6 +97,15 @@ export const router = createBrowserRouter([
       authRoutes,
       userRoutes,
       threadRoutes,
+      {
+        path: "*",
+        element: (
+          <ErrorInfoPage
+            title="404 Page Not Found"
+            description="The page you are looking for does not exists."
+          />
+        ),
+      },
     ],
   },
 ]);

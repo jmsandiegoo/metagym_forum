@@ -58,8 +58,9 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    // <ThemeProvider theme={theme}>
+    //   <CssBaseline />
+    <>
       {initializing ? (
         <Backdrop
           sx={{
@@ -73,7 +74,9 @@ function App() {
         <Outlet />
       )}
       <Notification />
-    </ThemeProvider>
+    </>
+
+    // </ThemeProvider>
   );
 }
 

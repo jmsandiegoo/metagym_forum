@@ -88,7 +88,7 @@ const ProfileContent = ({ user }: ProfileContentProps) => {
         <Typography>{user.profile.bio}</Typography>
         <Typography>Interests</Typography>
         <Stack direction="row" spacing={1}>
-          {user.profile.interests.map((interest, i) => (
+          {user.profile.interests?.map((interest, i) => (
             <InterestChip label={interest.name} key={i} />
           ))}
         </Stack>

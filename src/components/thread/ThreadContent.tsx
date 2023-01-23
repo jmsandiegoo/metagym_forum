@@ -43,18 +43,9 @@ const ThreadContent = ({ thread, loading }: ThreadContentProps) => {
 
   // delete Thread
   const handleDelete = async () => {
-    try {
-      await dispatch(deleteThread(thread.threadId)).unwrap();
-      dispatch(setSuccessFeedback("Thread deleted successfully"));
-      setOpen(false);
-      navigate("/home");
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        dispatch(setErrorFeedback(e.response?.data?.error || e.message));
-      } else {
-        dispatch(setErrorFeedback("An unexpected error occured"));
-      }
-    }
+    await dispatch(deleteThread(thread.threadId)).unwrap();
+    setOpen(false);
+    navigate("/home");
   };
 
   return (
@@ -81,7 +72,7 @@ const ThreadContent = ({ thread, loading }: ThreadContentProps) => {
       <Stack direction="row" justifyContent="space-between">
         <VoteButtons data={thread} />
         <Stack direction="row" spacing={1}>
-          {thread.interests.map((interest, i) => (
+          {thread.interests?.map((interest, i) => (
             <InterestChip label={interest.name} key={i} />
           ))}
         </Stack>

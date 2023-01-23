@@ -1,17 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Thread } from "../types";
+import { Error, Thread } from "../types";
 import { createThread, deleteThread, fetchThread, searchThread, updateThread } from "./threadThunks";
 
 interface StateType {
     threads: Thread[];
     currentThread: Thread | null;
     loading: boolean;
+    error: Error | null;
 }
 
 const initialState: StateType = {
     threads: [],
     currentThread: null,
     loading: false,
+    error: null,
 }
 
 const threadSlice = createSlice({
@@ -22,6 +24,7 @@ const threadSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(createThread.pending, (state, action) => {
             state.loading = true;
+            state.error = null;
         })
         builder.addCase(createThread.fulfilled, (state, action) => {
             state.loading = false;
@@ -29,9 +32,11 @@ const threadSlice = createSlice({
         })
         builder.addCase(createThread.rejected, (state, action) => {
             state.loading = false;
+            state.error = action.payload as Error;
         })
         builder.addCase(fetchThread.pending, (state, action) => {
             state.loading = true;
+            state.error = null;
         })
         builder.addCase(fetchThread.fulfilled, (state, action) => {
             state.loading = false;
@@ -39,9 +44,11 @@ const threadSlice = createSlice({
         })
         builder.addCase(fetchThread.rejected, (state, action) => {
             state.loading = false;
+            state.error = action.payload as Error;
         })
         builder.addCase(updateThread.pending, (state, action) => {
             state.loading = true;
+            state.error = null;
         })
         builder.addCase(updateThread.fulfilled, (state, action) => {
             state.loading = false;
@@ -49,9 +56,11 @@ const threadSlice = createSlice({
         })
         builder.addCase(updateThread.rejected, (state, action) => {
             state.loading = false;
+            state.error = action.payload as Error;
         })
         builder.addCase(searchThread.pending, (state, action) => {
             state.loading = true;
+            state.error = null;
         })
         builder.addCase(searchThread.fulfilled, (state, action) => {
             state.loading = false;
@@ -59,15 +68,18 @@ const threadSlice = createSlice({
         })
         builder.addCase(searchThread.rejected, (state, action) => {
             state.loading = false;
+            state.error = action.payload as Error;
         })
         builder.addCase(deleteThread.pending, (state, action) => {
             state.loading = true;
+            state.error = null;
         })
         builder.addCase(deleteThread.fulfilled, (state, action) => {
             state.loading = false;
         })
         builder.addCase(deleteThread.rejected, (state, action) => {
             state.loading = false;
+            state.error = action.payload as Error;
         })
     }
 })

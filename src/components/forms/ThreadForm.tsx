@@ -46,24 +46,14 @@ const ThreadForm = ({ thread }: ThreadFormProps) => {
   const threadHandler: SubmitHandler<ThreadRequest> = async (
     data: ThreadRequest
   ) => {
-    try {
-      console.log(data);
-      let res: ThreadResponse;
-      if (!thread) {
-        res = await dispatch(createThread(data)).unwrap();
-        dispatch(setSuccessFeedback("Thread created successfully"));
-      } else {
-        res = await dispatch(updateThread(data)).unwrap();
-        dispatch(setSuccessFeedback("Thread edited successfully"));
-      }
-      navigate(`/thread/${res.thread.threadId}`, { replace: true });
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        dispatch(setErrorFeedback(e.response?.data?.error || e.message));
-      } else {
-        dispatch(setErrorFeedback("An unexpected error occured"));
-      }
+    console.log(data);
+    let res: ThreadResponse;
+    if (!thread) {
+      res = await dispatch(createThread(data)).unwrap();
+    } else {
+      res = await dispatch(updateThread(data)).unwrap();
     }
+    navigate(`/thread/${res.thread.threadId}`, { replace: true });
   };
 
   return (

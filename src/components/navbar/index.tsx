@@ -39,11 +39,7 @@ const Navbar = () => {
           title: searchParams.get("title") ?? "",
           interests: searchParams.getAll("interests"),
         };
-        try {
-          await dispatch(searchThread(searchData)).unwrap();
-        } catch (e) {
-          console.error(e);
-        }
+        dispatch(searchThread(searchData));
       })();
     }
   }, [location]);
@@ -62,21 +58,13 @@ const Navbar = () => {
   const searchHandler: SubmitHandler<SearchInputData> = async (
     data: SearchInputData
   ) => {
-    try {
-      console.log(data);
-      await dispatch(searchThread(data.search)).unwrap();
-      let queryString = mapQueryString(data.search);
-      navigate({
-        pathname: "/home",
-        search: queryString,
-      });
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        dispatch(setErrorFeedback(e.response?.data?.error || e.message));
-      } else {
-        dispatch(setErrorFeedback("An unexpected error occured"));
-      }
-    }
+    console.log(data);
+    await dispatch(searchThread(data.search));
+    let queryString = mapQueryString(data.search);
+    navigate({
+      pathname: "/home",
+      search: queryString,
+    });
   };
 
   return (
