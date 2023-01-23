@@ -35,7 +35,7 @@ const ThreadCard = ({ thread }: ThreadCardProps) => {
       <CardActionArea
         component={RouterLink}
         to={`/thread/${thread.threadId}`}
-        sx={{ px: 2, py: 3 }}
+        sx={{ p: 4 }}
       >
         <Stack spacing={3}>
           <Stack spacing={2}>
@@ -45,12 +45,12 @@ const ThreadCard = ({ thread }: ThreadCardProps) => {
             sx={{
               overflow: "hidden",
               textOverflow: "ellipsis",
-              height: "100px",
+              height: "70px",
             }}
           >
             <Typography>{thread.body}</Typography>
           </Box>
-          <Stack direction="row" alignItems="center">
+          <Stack direction="row" alignItems="center" spacing={2}>
             <VoteButtons data={thread} />
             <UserDetails
               user={thread.user}

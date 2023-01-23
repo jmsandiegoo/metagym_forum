@@ -10,7 +10,6 @@ import { Link, useLocation } from "react-router-dom";
 const HomePage = () => {
   const { loading, threads } = useAppSelector((state) => state.thread);
   const location = useLocation();
-  console.log(location.search);
 
   const ErrorInfoContent = () => {
     if (location.pathname === "/home" && location.search === "") {

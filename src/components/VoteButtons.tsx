@@ -43,10 +43,12 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
     );
 
     if (userLiked) {
+      setIsDownvoteActive(false);
       setIsUpvoteActive(true);
     }
 
     if (userDisliked) {
+      setIsUpvoteActive(false);
       setIsDownvoteActive(true);
     }
   }, [data]);
@@ -85,15 +87,9 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
         ).unwrap();
       }
     } catch (e) {
-      console.log("error occuredd");
       setVoteCount((prev) => prev - addVote);
       setIsUpvoteActive(false);
       setIsDownvoteActive(false);
-      if (axios.isAxiosError(e)) {
-        dispatch(setErrorFeedback(e.response?.data?.error || e.message));
-      } else {
-        dispatch(setErrorFeedback("An unexpected error occured"));
-      }
     }
   };
 
@@ -133,11 +129,6 @@ const VoteButtons = ({ data }: VoteButtonsProps) => {
       setVoteCount((prev) => prev + subVote);
       setIsUpvoteActive(false);
       setIsDownvoteActive(false);
-      if (axios.isAxiosError(e)) {
-        dispatch(setErrorFeedback(e.response?.data?.error || e.message));
-      } else {
-        dispatch(setErrorFeedback("An unexpected error occured"));
-      }
     }
   };
 

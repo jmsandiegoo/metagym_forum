@@ -44,23 +44,13 @@ const CommentForm = ({
   const commentHandler: SubmitHandler<CommentRequest> = async (
     data: CommentRequest
   ) => {
-    try {
-      if (!comment) {
-        await dispatch(createThreadComment(data)).unwrap();
-        dispatch(setSuccessFeedback("Comment created successfully"));
-        methods.reset({ body: "" });
-      } else {
-        await dispatch(updateThreadComment(data)).unwrap();
-        await dispatch(fetchThreadComments(data.threadId)).unwrap();
-        dispatch(setSuccessFeedback("Comment edited successfully"));
-        otherEditHandler && otherEditHandler();
-      }
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        dispatch(setErrorFeedback(e.response?.data?.error || e.message));
-      } else {
-        dispatch(setErrorFeedback("An unexpected error occured"));
-      }
+    if (!comment) {
+      await dispatch(createThreadComment(data));
+      methods.reset({ body: "", threadId: threadId });
+    } else {
+      await dispatch(updateThreadComment(data));
+      await dispatch(fetchThreadComments(data.threadId));
+      otherEditHandler && otherEditHandler();
     }
   };
 
