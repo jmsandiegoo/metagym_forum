@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement } from "react";
 import Img from "../components/Image";
 import error_img from "../assets/Error_Image.png";
 import { Link } from "react-router-dom";

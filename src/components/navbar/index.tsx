@@ -34,13 +34,11 @@ const Navbar = () => {
 
   useEffect(() => {
     if (location.pathname === "/home") {
-      (async () => {
-        const searchData: SearchRequest = {
-          title: searchParams.get("title") ?? "",
-          interests: searchParams.getAll("interests"),
-        };
-        dispatch(searchThread(searchData));
-      })();
+      const searchData: SearchRequest = {
+        title: searchParams.get("title") ?? "",
+        interests: searchParams.getAll("interests"),
+      };
+      dispatch(searchThread(searchData));
     }
   }, [location]);
 

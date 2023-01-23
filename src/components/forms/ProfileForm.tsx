@@ -35,7 +35,7 @@ const ProfileForm = ({ profile }: ProfileFormProps) => {
       age: profile.age,
       height: profile.height,
       weight: profile.weight,
-      interests: profile.interests.map((i) => i.interestId),
+      interests: profile.interests?.map((i) => i.interestId) ?? [],
     },
   });
 

@@ -67,7 +67,7 @@ const ProfilePage = () => {
                 <Tab label="Comments" {...a11yProps(1)} />
               </Tabs>
               <TabPanel value={value} index={0}>
-                <ThreadList threads={user.threads ?? []} loading={loading} />
+                <ThreadList threads={user.threads ?? []} />
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <Typography textAlign="center">

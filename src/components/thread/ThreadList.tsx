@@ -4,14 +4,11 @@ import LoadingSpinner from "../LoadingSpinner";
 import ThreadCard from "./ThreadCard";
 
 interface ThreadList {
-  loading: boolean;
   threads: Thread[];
 }
 
-const ThreadList = ({ loading, threads }: ThreadList) => {
-  return loading ? (
-    <LoadingSpinner text="Fetching Threads..." />
-  ) : (
+const ThreadList = ({ threads }: ThreadList) => {
+  return (
     <Stack spacing={2}>
       {threads.map((t, i) => (
         <ThreadCard key={t.threadId} thread={t} />

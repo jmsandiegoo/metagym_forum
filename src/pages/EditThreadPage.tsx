@@ -11,59 +11,50 @@ import axios from "axios";
 import { setErrorFeedback } from "../store/feedbackSlice";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { Thread } from "../types";
+import ErrorInfoPage from "./ErrorPage";
 
 const EditThreadPage = () => {
-  const { currentThread } = useAppSelector((state) => state.thread);
-  const { authUser } = useAppSelector((state) => state.auth);
-  const { loading: threadLoading } = useAppSelector((state) => state.thread);
+  const {
+    currentThread,
+    loading: threadLoading,
+    error,
+  } = useAppSelector((state) => state.thread);
 
   const dispatch = useAppDispatch();
   const { threadId } = useParams();
 
   useEffect(() => {
     if (threadId) {
-      (async () => {
-        try {
-          const _ = await dispatch(fetchThread(threadId as string)).unwrap();
-        } catch (e) {
-          if (axios.isAxiosError(e)) {
-            if (e.response?.status === 404) {
-              // redirect to 404
-            }
-            dispatch(setErrorFeedback(e.response?.data?.error || e.message));
-            // Error Handler
-          } else {
-            dispatch(setErrorFeedback("An unexpected error occured"));
-          }
-        }
-      })();
+      dispatch(fetchThread(threadId as string));
     }
   }, []);
 
-  if (!threadId || !currentThread) {
-    // return 404
-    return null;
-  }
-
   return (
     <MainLayout isAddButtonEnabled={false}>
-      <Container maxWidth="xl" sx={{ mt: 10 }}>
-        <SideImageLayout
-          isInverted={true}
-          spacing={0}
-          imgAlt={"Two men exercising"}
-          imgSrc={create_edit_thread_img}
-          minHeight="auto"
-        >
-          <Box mr={10} height="auto">
-            {threadLoading ? (
-              <LoadingSpinner text="Initializing form please wait" />
-            ) : (
-              <ThreadForm thread={currentThread as Thread} />
-            )}
-          </Box>
-        </SideImageLayout>
-      </Container>
+      {error && error.status === 404 ? (
+        <ErrorInfoPage
+          title="404 Thread Not Found"
+          description="It seems that the thread does not exist"
+        />
+      ) : (
+        <Container maxWidth="xl" sx={{ mt: 10 }}>
+          <SideImageLayout
+            isInverted={true}
+            spacing={0}
+            imgAlt={"Two men exercising"}
+            imgSrc={create_edit_thread_img}
+            minHeight="auto"
+          >
+            <Box mr={10} height="auto">
+              {threadLoading || !threadId || !currentThread ? (
+                <LoadingSpinner text="Initializing form please wait" />
+              ) : (
+                <ThreadForm thread={currentThread as Thread} />
+              )}
+            </Box>
+          </SideImageLayout>
+        </Container>
+      )}
     </MainLayout>
   );
 };
