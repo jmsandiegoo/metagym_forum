@@ -43,6 +43,7 @@ const ProfileForm = ({ profile }: ProfileFormProps) => {
     data: UpdateProfileRequest
   ) => {
     console.log(data);
+    alert("Still under development!");
   };
 
   return (

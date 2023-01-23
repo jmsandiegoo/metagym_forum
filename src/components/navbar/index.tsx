@@ -88,12 +88,15 @@ const Navbar = () => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Img
-            src={logo_img}
-            marginProp={0}
-            widthProp={"200px"}
-            heightProp="auto"
-          />
+          <Box onClick={() => navigate("/home")} sx={{ cursor: "pointer" }}>
+            <Img
+              src={logo_img}
+              marginProp={0}
+              widthProp={"200px"}
+              heightProp="auto"
+            />
+          </Box>
+
           {/* TODO SEARCH */}
           <Stack direction="row" justifyContent="center" flexGrow={1}>
             <FormProvider {...methods}>

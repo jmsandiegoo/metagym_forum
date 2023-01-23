@@ -70,7 +70,7 @@ const CommentForm = ({
         <Stack spacing={2}>
           <TextInput
             name="body"
-            label={`${comment && "Edit"} Comment`}
+            label={`${comment ? "Edit" : ""} Comment`}
             TextFieldProps={{
               multiline: true,
               rows: 4,

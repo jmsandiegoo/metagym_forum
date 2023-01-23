@@ -32,6 +32,7 @@ const AccountForm = ({ user }: AccountFormProps) => {
     data: AccountFormInput
   ) => {
     console.log(data);
+    alert("Still under development!");
   };
 
   return (

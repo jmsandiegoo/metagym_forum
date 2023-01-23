@@ -62,14 +62,15 @@ const LoginForm = () => {
           </Box>
           <TextInput name="username" label="Username" />
           <PasswordInput name="password" label="Password" />
-          <Link
+          {/* <Link
             component={RouterLink}
             variant="body2"
             to="/forgot-password"
             sx={{ alignSelf: "flex-end" }}
+            onClick={() => console.log}
           >
             Forgot Password
-          </Link>
+          </Link> */}
           <Box textAlign="center">
             <LoadingButton
               type="submit"

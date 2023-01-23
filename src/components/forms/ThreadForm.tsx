@@ -56,7 +56,7 @@ const ThreadForm = ({ thread }: ThreadFormProps) => {
         res = await dispatch(updateThread(data)).unwrap();
         dispatch(setSuccessFeedback("Thread edited successfully"));
       }
-      navigate(`/thread/${res.thread.threadId}`);
+      navigate(`/thread/${res.thread.threadId}`, { replace: true });
     } catch (e) {
       if (axios.isAxiosError(e)) {
         dispatch(setErrorFeedback(e.response?.data?.error || e.message));

@@ -1,4 +1,4 @@
-import { Button, Container, Stack, Tab, Tabs } from "@mui/material";
+import { Button, Container, Stack, Tab, Tabs, Typography } from "@mui/material";
 import MainLayout from "../layouts/MainLayout";
 import ProfileContent from "../components/user/ProfileContent";
 import { useNavigate, useParams } from "react-router-dom";
@@ -75,9 +75,13 @@ const ProfilePage = () => {
               aria-label="profile-tabs"
             >
               <Tab label="Threads" {...a11yProps(0)} />
+              <Tab label="Comments" {...a11yProps(1)} />
             </Tabs>
             <TabPanel value={value} index={0}>
               <ThreadList threads={user.threads ?? []} loading={loading} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <Typography textAlign="center">Still in development.</Typography>
             </TabPanel>
           </Stack>
         )}

@@ -52,10 +52,7 @@ const EditProfilePage = () => {
           py={5}
         >
           <Typography variant="h1">Edit Profile</Typography>
-          <Button
-            variant="text"
-            onClick={() => navigate(`/user/${user.userId}`)}
-          >
+          <Button variant="text" onClick={() => navigate(-1)}>
             Cancel
           </Button>
         </Stack>
