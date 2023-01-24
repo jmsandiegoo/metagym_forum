@@ -73,7 +73,7 @@ Axios
 &emsp;- Upvote Thread\
 &emsp;- Downvote Thread\
 &emsp;- Upvote Comment\
-&emsp;- Downvote Thread
+&emsp;- Downvote Comment
 
 **Profile Feature**\
 &emsp;- View User Profile\
