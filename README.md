@@ -39,7 +39,7 @@ Material UI\
 Axios
 
 **Tools**\
-Figma
+Figma\
 VSCode
 
 ## Setup
