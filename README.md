@@ -42,7 +42,7 @@ Axios
 - After setting up and running the backend api download or clone this repository
 - run `yarn` to install the project's dependencies
 - create a `.env` file in the root project directory and add `REACT_APP_API_ENDPOINT="<backend-url>"` (if backend is ran locally, the url would be `"http://localhost:8080"` port can vary depening on your local configuration when starting the backend)
-- run `yarn start` assuming the backend is already running.
+- run `yarn start` to start the application, assuming the backend is already running.
 
 ## Status / Features
 
