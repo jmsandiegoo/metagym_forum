@@ -38,8 +38,9 @@ Reach Hook Form\
 Material UI\
 Axios
 
-**Tools**
+**Tools**\
 Figma
+VSCode
 
 ## Setup
 
