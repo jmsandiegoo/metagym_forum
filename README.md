@@ -23,7 +23,9 @@ To be deployed soon.
 ## Screenshots
 
 ![Landing Page](https://i.imgur.com/MdIl2i3.png)
-
+![Home Page](https://i.imgur.com/AD6kxMY.png)
+![Thread Page](https://i.imgur.com/PI6R9Mq.png)
+![Profile Page](https://i.imgur.com/lkZx4Is.png)
 ## Technologies
 
 **Language:**\
