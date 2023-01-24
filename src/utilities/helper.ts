@@ -46,3 +46,8 @@ export const mapQueryString = (queryObj: QueryStringObject): string => {
 
     return queryString;
 }
+
+// RHF Validation functions
+export const requiredStringValidate = (errorMessage: string) => {
+    return (value: string) => value.trim().length > 0 || errorMessage;
+}

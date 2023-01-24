@@ -1,5 +1,6 @@
 import {
   FormControl,
+  FormHelperText,
   IconButton,
   Input,
   InputAdornment,
@@ -13,9 +14,12 @@ import { Controller } from "react-hook-form";
 interface PasswordInputProps {
   name: string;
   label: string;
+  validations?: {
+    [key: string]: (value: any) => boolean | string;
+  };
 }
 
-const PasswordInput = ({ name, label }: PasswordInputProps) => {
+const PasswordInput = ({ name, label, validations }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -29,9 +33,14 @@ const PasswordInput = ({ name, label }: PasswordInputProps) => {
   return (
     <Controller
       name={name}
-      render={({ field }) => (
-        <FormControl fullWidth variant="standard">
-          <InputLabel htmlFor="standard-adornment-password" shrink={true}>
+      render={({ field, fieldState: { error } }) => (
+        <FormControl fullWidth variant="standard" error={error ? true : false}>
+          <InputLabel
+            htmlFor="standard-adornment-password"
+            shrink={true}
+            {...(validations &&
+              validations.hasOwnProperty("required") && { required: true })}
+          >
             {label}
           </InputLabel>
           <Input
@@ -49,8 +58,15 @@ const PasswordInput = ({ name, label }: PasswordInputProps) => {
               </InputAdornment>
             }
           />
+          <FormHelperText>{error?.message}</FormHelperText>
         </FormControl>
       )}
+      // validation rules
+      rules={{
+        validate: {
+          ...(validations ? validations : {}),
+        },
+      }}
     />
   );
 };

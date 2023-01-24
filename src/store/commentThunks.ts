@@ -102,7 +102,7 @@ string,
 {
     rejectValue: Error
 }
->("comment/deleteThreadComment", async (commentId: string, thunkAPI) => {
+>("comment/deleteThreadComment", async (commentId, thunkAPI) => {
     try {
         await axiosInstance.delete(`api/comments/${commentId}`);
         thunkAPI.dispatch(setSuccessFeedback("Comment deleted successfully"));
@@ -131,7 +131,7 @@ VoteRequest,
 {
     rejectValue: Error
 }
->("comment/upvoteComment", async (voteData : VoteRequest, thunkAPI) => {
+>("comment/upvoteComment", async (voteData, thunkAPI) => {
     try {
         const commentId: string = voteData.commentId as string
         await axiosInstance.post(`api/comments/upvote/${commentId}`, {flag: voteData.flag});
@@ -160,7 +160,7 @@ VoteRequest,
 {
     rejectValue: Error
 }
->("comment/downvoteComment", async (voteData : VoteRequest, thunkAPI) => {
+>("comment/downvoteComment", async (voteData, thunkAPI) => {
     try {
         const commentId: string = voteData.commentId as string
         await axiosInstance.post(`api/comments/downvote/${commentId}`, {flag: voteData.flag});

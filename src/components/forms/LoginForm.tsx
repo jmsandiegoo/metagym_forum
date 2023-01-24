@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import TextInput from "./TextInput";
 import { login } from "../../store/authThunks";
 import { LoginRequest } from "../../types";
+import { requiredStringValidate } from "../../utilities/helper";
 
 const LoginForm = () => {
   const { loading } = useAppSelector((state) => state.auth);
@@ -60,8 +61,20 @@ const LoginForm = () => {
               Welcome back! Please enter your details.
             </Typography>
           </Box>
-          <TextInput name="username" label="Username" />
-          <PasswordInput name="password" label="Password" />
+          <TextInput
+            name="username"
+            label="Username"
+            validations={{
+              required: requiredStringValidate("Username is required"),
+            }}
+          />
+          <PasswordInput
+            name="password"
+            label="Password"
+            validations={{
+              required: requiredStringValidate("Password is required"),
+            }}
+          />
           {/* <Link
             component={RouterLink}
             variant="body2"
