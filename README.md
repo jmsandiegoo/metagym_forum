@@ -22,7 +22,7 @@ To be deployed soon.
 
 ## Screenshots
 
-_(Work in progress)_
+![Landing Page](https://imgur.com/MdIl2i3)
 
 ## Technologies
 
