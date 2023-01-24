@@ -15,6 +15,7 @@ import {
 import { CommentRequest, CommentResponse } from "../../types";
 import { Comment } from "../../types";
 import TextInput from "./TextInput";
+import { requiredValidate } from "../../utilities/helper";
 
 interface CommentFormProps {
   comment?: Comment;
@@ -65,6 +66,9 @@ const CommentForm = ({
               multiline: true,
               rows: 4,
               placeholder: "Enter comment here",
+            }}
+            validations={{
+              required: requiredValidate("Empty comment is not allowed"),
             }}
           />
           <Stack alignItems="flex-end">
