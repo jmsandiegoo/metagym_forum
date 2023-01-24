@@ -55,6 +55,7 @@ Axios
 **Thread Feature**\
 &emsp;- View Thread\
 &emsp;- Create Thread\
+&emsp;- Edit Thread\
 &emsp;- Delete Thread
 
 **Comment Feature**\
