@@ -19,6 +19,7 @@ import { createThread, updateThread } from "../../store/threadThunks";
 import { Thread, ThreadRequest, ThreadResponse } from "../../types";
 import InterestInput from "./InterestInput";
 import TextInput from "./TextInput";
+import { requiredValidate } from "../../utilities/helper";
 
 interface ThreadFormProps {
   thread?: Thread;
@@ -69,6 +70,9 @@ const ThreadForm = ({ thread }: ThreadFormProps) => {
             TextFieldProps={{
               placeholder: "E.g. Any tips for pull ups?",
             }}
+            validations={{
+              required: requiredValidate("Title is required"),
+            }}
           />
           <TextInput
             name="body"
@@ -79,8 +83,16 @@ const ThreadForm = ({ thread }: ThreadFormProps) => {
               placeholder:
                 "E.g. I have been learning pull ups for the past few weeks. Was thinking if anyone could provide some tips.",
             }}
+            validations={{
+              required: requiredValidate("Body is required"),
+            }}
           />
-          <InterestInput label="Thread Interests" />
+          <InterestInput
+            label="Thread Interests"
+            validations={{
+              required: requiredValidate("At least one interest is required"),
+            }}
+          />
           <Stack direction="row" spacing={1}>
             <LoadingButton type="submit" variant="contained" loading={loading}>
               {thread ? "Edit" : "Create"}
