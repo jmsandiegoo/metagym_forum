@@ -48,8 +48,29 @@ export const mapQueryString = (queryObj: QueryStringObject): string => {
 }
 
 // RHF Validation functions
-export const requiredStringValidate = (errorMessage: string) => {
-    return (value: string) => value.trim().length > 0 || errorMessage;
+export const requiredValidate = (errorMessage: string) => {
+    return (value: any) => {
+        if (!value) {
+            return errorMessage;
+        } else if (typeof value === "string") {
+            return value.trim().length > 0 || errorMessage;
+        } else if (typeof value === "number") {
+            return !isNaN(value) || errorMessage;
+        } else if (Array.isArray(value)) {
+            return value.length > 0 || errorMessage;
+        } else {
+            return errorMessage
+        }
+    }
+}
+
+
+export const checkNumMinValidate = (min: number, errorMessage: string) => {
+    return (value: number) => (!isNaN(value) && value >= min) || errorMessage;
+}
+
+export const checkNumMaxValidate = (max: number, errorMessage: string) => {
+    return (value: number) => (!isNaN(value) && value <= max) || errorMessage;
 }
 
 export const isEmailValidate = (errorMessage: string) => {

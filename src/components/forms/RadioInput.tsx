@@ -11,18 +11,28 @@ import { Controller } from "react-hook-form";
 interface RadioInput {
   name: string;
   label: string;
-  // defaultValue: string;
+  validations?: {
+    [key: string]: (...args: any[]) => boolean | string;
+  };
   RadioGroupProps?: {};
   children: ReactNode;
 }
 
-const RadioInput = ({ name, label, RadioGroupProps, children }: RadioInput) => (
+const RadioInput = ({
+  name,
+  label,
+  validations,
+  RadioGroupProps,
+  children,
+}: RadioInput) => (
   <Controller
     name={name}
     render={({ field }) => (
       <FormControl variant="standard">
         <FormLabel
           sx={{ fontSize: (theme) => theme.typography.caption.fontSize }}
+          {...(validations &&
+            validations.hasOwnProperty("required") && { required: true })}
         >
           {label}
         </FormLabel>
@@ -36,6 +46,11 @@ const RadioInput = ({ name, label, RadioGroupProps, children }: RadioInput) => (
         </RadioGroup>
       </FormControl>
     )}
+    rules={{
+      validate: {
+        ...(validations ? validations : {}),
+      },
+    }}
   />
 );
 

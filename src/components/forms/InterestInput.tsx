@@ -15,6 +15,9 @@ import InterestChip from "../InterestChip";
 
 interface InterestInputProps {
   label: string;
+  validations?: {
+    [key: string]: (...args: any[]) => boolean | string;
+  };
 }
 
 const InterestDropdown = styled("ul")({
@@ -35,7 +38,7 @@ const StyledOptionWrapper = styled("li")(({ theme }) => ({
   },
 }));
 
-const InterestInput = ({ label }: InterestInputProps) => {
+const InterestInput = ({ label, validations }: InterestInputProps) => {
   const [interestOptions, setInterestOptions] = useState<OptionType[]>([]);
   const { loading: interestLoading, interests } = useAppSelector(
     (state) => state.interest
@@ -60,7 +63,7 @@ const InterestInput = ({ label }: InterestInputProps) => {
   return (
     <Controller
       name="interests"
-      render={({ field: { ref, value, ...field } }) => (
+      render={({ field: { ref, value, ...field }, fieldState: { error } }) => (
         <FormControl fullWidth variant="standard">
           <Autocomplete
             {...field}
@@ -73,7 +76,7 @@ const InterestInput = ({ label }: InterestInputProps) => {
             options={interestOptions}
             getOptionLabel={(option: OptionType) => option.label}
             filterSelectedOptions
-            loading={true}
+            loading={interestLoading}
             renderOption={(props, option, { selected }) => (
               <StyledOptionWrapper {...props}>
                 <InterestChip label={option.label} {...props} />
@@ -93,7 +96,17 @@ const InterestInput = ({ label }: InterestInputProps) => {
               ))
             }
             renderInput={(params) => (
-              <TextField {...params} inputRef={ref} label={label} />
+              <TextField
+                {...params}
+                inputRef={ref}
+                {...(validations &&
+                  validations.hasOwnProperty("required") && {
+                    InputLabelProps: { required: true },
+                  })}
+                label={label}
+                error={error ? true : false}
+                helperText={error?.message}
+              />
             )}
             onChange={(_, data) => {
               console.log(data);
@@ -102,6 +115,12 @@ const InterestInput = ({ label }: InterestInputProps) => {
           ></Autocomplete>
         </FormControl>
       )}
+      // validation rules
+      rules={{
+        validate: {
+          ...(validations ? validations : {}),
+        },
+      }}
     />
   );
 };

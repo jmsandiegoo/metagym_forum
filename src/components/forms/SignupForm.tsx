@@ -20,7 +20,7 @@ import { SignupRequest } from "../../types";
 import {
   isEmailValidate,
   isSameStringValidate,
-  requiredStringValidate,
+  requiredValidate,
 } from "../../utilities/helper";
 
 type SignupFormInput = { confirmPassword: string } & SignupRequest;
@@ -46,10 +46,10 @@ const SignupForm = () => {
     data: SignupFormInput
   ) => {
     const signupData: SignupRequest = {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      username: data.username,
-      email: data.email,
+      firstName: data.firstName.trim(),
+      lastName: data.lastName.trim(),
+      username: data.username.trim(),
+      email: data.email.trim(),
       password: data.password,
     };
 
@@ -89,7 +89,7 @@ const SignupForm = () => {
                 name="firstName"
                 label="Firstname"
                 validations={{
-                  required: requiredStringValidate("Firstname is required"),
+                  required: requiredValidate("Firstname is required"),
                 }}
               />
             </Grid>
@@ -98,7 +98,7 @@ const SignupForm = () => {
                 name="lastName"
                 label="Lastname"
                 validations={{
-                  required: requiredStringValidate("Lastname is required"),
+                  required: requiredValidate("Lastname is required"),
                 }}
               />
             </Grid>
@@ -107,7 +107,7 @@ const SignupForm = () => {
                 name="username"
                 label="Username"
                 validations={{
-                  required: requiredStringValidate("Username is required"),
+                  required: requiredValidate("Username is required"),
                 }}
               />
             </Grid>
@@ -116,7 +116,7 @@ const SignupForm = () => {
                 name="email"
                 label="Email"
                 validations={{
-                  required: requiredStringValidate("Email is required"),
+                  required: requiredValidate("Email is required"),
                   isEmail: isEmailValidate("Input provided is not an email"),
                 }}
               />
@@ -126,7 +126,7 @@ const SignupForm = () => {
                 name="password"
                 label="Password"
                 validations={{
-                  required: requiredStringValidate("Password is required"),
+                  required: requiredValidate("Password is required"),
                 }}
               />
             </Grid>
@@ -135,9 +135,7 @@ const SignupForm = () => {
                 name="confirmPassword"
                 label="Confirm Password"
                 validations={{
-                  required: requiredStringValidate(
-                    "Confirm Password is required"
-                  ),
+                  required: requiredValidate("Confirm Password is required"),
                   isSame: isSameStringValidate(
                     passwordVal,
                     "Password mismatch please re-type"

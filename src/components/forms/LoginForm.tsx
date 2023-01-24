@@ -17,7 +17,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import TextInput from "./TextInput";
 import { login } from "../../store/authThunks";
 import { LoginRequest } from "../../types";
-import { requiredStringValidate } from "../../utilities/helper";
+import { requiredValidate } from "../../utilities/helper";
 
 const LoginForm = () => {
   const { loading } = useAppSelector((state) => state.auth);
@@ -65,14 +65,14 @@ const LoginForm = () => {
             name="username"
             label="Username"
             validations={{
-              required: requiredStringValidate("Username is required"),
+              required: requiredValidate("Username is required"),
             }}
           />
           <PasswordInput
             name="password"
             label="Password"
             validations={{
-              required: requiredStringValidate("Password is required"),
+              required: requiredValidate("Password is required"),
             }}
           />
           {/* <Link

@@ -25,6 +25,11 @@ import { OnboardRequest } from "../../types";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import TextInput from "./TextInput";
 import { onboard, signOut } from "../../store/authThunks";
+import {
+  checkNumMaxValidate,
+  checkNumMinValidate,
+  requiredValidate,
+} from "../../utilities/helper";
 
 const OnboardingForm = () => {
   const { loading: authLoading, authUser } = useAppSelector(
@@ -36,6 +41,9 @@ const OnboardingForm = () => {
     defaultValues: {
       pfpUrl: "https://avatars.githubusercontent.com/u/49123896?v=4", // Just a temporary data to be changed when doing file upload in future
       bio: "",
+      age: 18,
+      height: 1.72,
+      weight: 71.2,
       experience: "beginner",
       interests: [],
     },
@@ -125,15 +133,29 @@ const OnboardingForm = () => {
                 </RadioInput>
               </Grid>
               <Grid item xs={12}>
-                <CountrySelect />
+                <CountrySelect
+                  validations={{
+                    required: requiredValidate("Country is required"),
+                  }}
+                />
               </Grid>
               <Grid item xs={4}>
                 <NumberInput
                   name="age"
                   label="Age"
                   placeholder="20"
-                  min={18}
-                  max={100}
+                  isFloat={false}
+                  validations={{
+                    required: requiredValidate("Age is required"),
+                    checkNumMax: checkNumMaxValidate(
+                      150,
+                      "Age input cannot be older than 150"
+                    ),
+                    checkNumMin: checkNumMinValidate(
+                      13,
+                      "Age input cannot be younger than 13"
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -141,9 +163,18 @@ const OnboardingForm = () => {
                   name="height"
                   label="Height (m)"
                   placeholder="1.72"
-                  min={0}
-                  max={3}
-                  step={0.01}
+                  isFloat={true}
+                  validations={{
+                    required: requiredValidate("Height is required"),
+                    checkNumMax: checkNumMaxValidate(
+                      3,
+                      "Height input can be maximum of 3.00 m"
+                    ),
+                    checkNumMin: checkNumMinValidate(
+                      0,
+                      "Height input is invalid"
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -151,13 +182,32 @@ const OnboardingForm = () => {
                   name="weight"
                   label="Weight (kg)"
                   placeholder="71.5"
+                  isFloat={true}
                   min={0}
                   max={1000}
                   step={0.1}
+                  validations={{
+                    required: requiredValidate("Weight is required"),
+                    checkNumMax: checkNumMaxValidate(
+                      800,
+                      "Weight input is way too high"
+                    ),
+                    checkNumMin: checkNumMinValidate(
+                      0,
+                      "Weight input is invalid"
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
-                <InterestInput label="Interests" />
+                <InterestInput
+                  label="Interests"
+                  validations={{
+                    required: requiredValidate(
+                      "At least one interest is required"
+                    ),
+                  }}
+                />
               </Grid>
             </Grid>
           </div>

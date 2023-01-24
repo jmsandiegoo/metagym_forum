@@ -6,44 +6,60 @@ interface NumberInputProps {
   name: string;
   label: string;
   placeholder: string;
-  min: number;
-  max: number;
+  isFloat: boolean;
+  min?: number;
+  max?: number;
   step?: number;
-  onChangeHandler?: (e: SyntheticEvent) => void;
+  validations?: {
+    [key: string]: (...args: any[]) => boolean | string;
+  };
 }
 
 const NumberInput = ({
   name,
   label,
   placeholder,
+  isFloat,
   min,
   max,
   step = 1,
-  onChangeHandler,
+  validations,
 }: NumberInputProps) => {
   return (
     <Controller
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
           type="number"
+          {...(validations &&
+            validations.hasOwnProperty("required") && {
+              InputLabelProps: { required: true },
+            })}
           label={label}
           placeholder={placeholder}
           InputProps={{
             inputProps: {
-              max,
-              min,
-              step,
+              ...(max && { max: max }),
+              ...(min && { step: min }),
+              ...(step && { step: step }),
             },
           }}
+          error={error ? true : false}
+          helperText={error?.message}
           onChange={(e) =>
-            onChangeHandler
-              ? field.onChange(onChangeHandler)
-              : field.onChange(parseFloat(e.target.value))
+            isFloat
+              ? field.onChange(parseFloat(e.target.value))
+              : field.onChange(parseInt(e.target.value))
           }
         />
       )}
+      // validation rules
+      rules={{
+        validate: {
+          ...(validations ? validations : {}),
+        },
+      }}
     />
   );
 };

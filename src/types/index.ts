@@ -90,14 +90,14 @@ export interface SignupRequest {
 
 export type UpdateAccountRequest = {
     userId: string;
-} & SignupRequest
+} & SignupRequest;
 
 export type OnboardRequest = Pick<UserProfile, "pfpUrl" | "bio" | "experience" | "country" | "height" | "weight" | "age"> & {
-    interests: string[]
+    interests: string[];
 }
 
 export type UpdateProfileRequest = Omit<UserProfile, "createdAt" | "updatedAt" | "rep"> & {
-    interests: string[]
+    interests: string[];
 }
 
 export interface ThreadRequest {

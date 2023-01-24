@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
-interface TextInputComponent {
+interface TextInputProps {
   name: string;
   label: string;
   validations?: {
@@ -15,8 +15,7 @@ const TextInput = ({
   label,
   validations,
   TextFieldProps,
-}: TextInputComponent) => {
-  const methods = useFormContext();
+}: TextInputProps) => {
   return (
     <Controller
       name={name}

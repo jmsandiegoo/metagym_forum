@@ -17,6 +17,11 @@ import { LoadingButton } from "@mui/lab";
 import InterestInput from "./InterestInput";
 import NumberInput from "./NumberInput";
 import { useAppSelector } from "../../hooks/reduxHooks";
+import {
+  checkNumMaxValidate,
+  checkNumMinValidate,
+  requiredValidate,
+} from "../../utilities/helper";
 
 interface ProfileFormProps {
   profile: UserProfile;
@@ -101,15 +106,29 @@ const ProfileForm = ({ profile }: ProfileFormProps) => {
                 </RadioInput>
               </Grid>
               <Grid item xs={12}>
-                <CountrySelect />
+                <CountrySelect
+                  validations={{
+                    required: requiredValidate("Country is required"),
+                  }}
+                />
               </Grid>
               <Grid item xs={4}>
                 <NumberInput
                   name="age"
                   label="Age"
                   placeholder="20"
-                  min={18}
-                  max={100}
+                  isFloat={false}
+                  validations={{
+                    required: requiredValidate("Age is required"),
+                    checkNumMax: checkNumMaxValidate(
+                      150,
+                      "Age input cannot be older than 150"
+                    ),
+                    checkNumMin: checkNumMinValidate(
+                      13,
+                      "Age input cannot be younger than 13"
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -117,9 +136,18 @@ const ProfileForm = ({ profile }: ProfileFormProps) => {
                   name="height"
                   label="Height (m)"
                   placeholder="1.72"
-                  min={0}
-                  max={3}
-                  step={0.01}
+                  isFloat={true}
+                  validations={{
+                    required: requiredValidate("Height is required"),
+                    checkNumMax: checkNumMaxValidate(
+                      3,
+                      "Height input can be maximum of 3.00 m"
+                    ),
+                    checkNumMin: checkNumMinValidate(
+                      0,
+                      "Height input is invalid"
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -127,13 +155,32 @@ const ProfileForm = ({ profile }: ProfileFormProps) => {
                   name="weight"
                   label="Weight (kg)"
                   placeholder="71.5"
+                  isFloat={true}
                   min={0}
                   max={1000}
                   step={0.1}
+                  validations={{
+                    required: requiredValidate("Weight is required"),
+                    checkNumMax: checkNumMaxValidate(
+                      800,
+                      "Weight input is way too high"
+                    ),
+                    checkNumMin: checkNumMinValidate(
+                      0,
+                      "Weight input is invalid"
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
-                <InterestInput label="Interests" />
+                <InterestInput
+                  label="Interests"
+                  validations={{
+                    required: requiredValidate(
+                      "At least one interest is required"
+                    ),
+                  }}
+                />
               </Grid>
             </Grid>
           </div>

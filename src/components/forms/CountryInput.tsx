@@ -4,12 +4,17 @@ import { OptionType } from "../../types";
 import { countries } from "../../utilities/constants";
 import { mapValueToOption } from "../../utilities/helper";
 
-export default function CountrySelect() {
+interface CountryInputProps {
+  validations?: {
+    [key: string]: (...args: any[]) => boolean | string;
+  };
+}
+
+export default function CountrySelect({ validations }: CountryInputProps) {
   return (
     <Controller
       name="country"
-      render={({ field: { ref, value, ...field } }) => {
-        console.log(field);
+      render={({ field: { ref, value, ...field }, fieldState: { error } }) => {
         return (
           <Autocomplete
             {...field}
@@ -42,17 +47,29 @@ export default function CountrySelect() {
               <TextField
                 {...params}
                 inputRef={ref}
+                {...(validations &&
+                  validations.hasOwnProperty("required") && {
+                    InputLabelProps: { required: true },
+                  })}
                 label="Country"
                 placeholder="Select your country"
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: "new-password", // disable autocomplete and autofill
                 }}
+                error={error ? true : false}
+                helperText={error?.message}
               />
             )}
             onChange={(_, data) => field.onChange(data?.value)}
           />
         );
+      }}
+      // validation rules
+      rules={{
+        validate: {
+          ...(validations ? validations : {}),
+        },
       }}
     />
   );
