@@ -38,6 +38,9 @@ Reach Hook Form\
 Material UI\
 Axios
 
+**Tools**
+Figma
+
 ## Setup
 
 - Note: Make sure to set up and run **[MetaGym Web Forum Backend API]** first. Check the [MetaGym Backend API Repository](https://github.com/jmsandiegoo/metagym_web_forum_backend)
