@@ -1,46 +1,98 @@
-# Getting Started with Create React App
+# Project Title
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+MetaGym Web Forum (FrontEnd)
 
-## Available Scripts
+## Demo link:
 
-In the project directory, you can run:
+To be deployed soon.
 
-### `yarn start`
+## Table of Content:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [About The App](#about-the-app)
+- [Screenshots](#screenshots)
+- [Technologies](#technologies)
+- [Setup](#setup)
+- [Status / Features](#status)
+- [Credits](#credits)
+- [License](#license)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## About The App
 
-### `yarn test`
+**[MetaGym Web Forum]** is a Single Page Application (SPA) that provides a platform for the fitness community to discuss fitness related topics and build a cohesive community. Individuals who are planning to start a healthy lifestyle could ask experienced members on the platform for tips. For instance, they could ask for ideal workout routines be it in weight-lifting or calisthenics. Moreover, experienced individuals would be able to expand their knowledge from other users as well. An example would be, one could start a discussion about the best and most efficient tricep exercise for hypertrophy. All these are possible through the platform where users could simply create an account and start a discussion or thread and other users could input their opinions respectively. The application also caters to various topics or categories such as body weight exercise, running, weight lifting, power lifting and more.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Screenshots
 
-### `yarn build`
+_(Work in progress)_
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Technologies
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Language:**\
+Typescript
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**SPA Framework & Libraries:**\
+React.js\
+Redux Toolkit\
+Reach Hook Form\
+Material UI\
+Axios
 
-### `yarn eject`
+## Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Note: Make sure to set up and run **[MetaGym Web Forum Backend API]** first. Check the [MetaGym Backend API Repository](https://github.com/jmsandiegoo/metagym_web_forum_backend)
+- After setting up and running the backend api download or clone this repository
+- run `yarn` to install the project's dependencies
+- create a `.env` file in the root project directory and add `REACT_APP_API_ENDPOINT="<backend-url>"` (if backend is ran locally, the url would be `"http://localhost:8080"` port can vary depening on your local configuration when starting the backend)
+- run `yarn start` assuming the backend is already running.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Status / Features
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**[MetaGym Web Forum Frontend]** currently has the following features:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**Authentication System (JWT)**\
+&emsp;- Login / Signup\
+&emsp;- Forgot Password (In development...)
 
-## Learn More
+**Thread Feature**\
+&emsp;- View Thread\
+&emsp;- Create Thread\
+&emsp;- Delete Thread
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Comment Feature**\
+&emsp;- View Thread Comment\
+&emsp;- Create Thread Comment\
+&emsp;- Edit Thread Comment\
+&emsp;- Delete Thread Comment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Interests Feature**\
+&emsp;- Thread Categorised into Interests
+
+**Search Feature**\
+&emsp;- Search a Thread w/ Interests & Title Keyword
+
+**Upvote Feature**\
+&emsp;- Upvote Thread\
+&emsp;- Downvote Thread\
+&emsp;- Upvote Comment\
+&emsp;- Downvote Thread
+
+**Profile Feature**\
+&emsp;- View User Profile\
+&emsp;- View User Threads\
+&emsp;- View User Comments (In development...)\
+&emsp;- Edit Profile and Account (In development...)
+
+`More features` will be out in the future like:\
+&emsp;- Profile Photos\
+&emsp;- Thread Body Formatting and Image support\
+&emsp;- Pagination & Sorting of Thread and Comment List\
+&emsp;- Search Users
+
+## Credits
+
+List of contriubutors:
+
+- [Jm San Diego](https://github.com/jmsandiegoo)
+
+## License
+
+MIT license

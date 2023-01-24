@@ -3,7 +3,7 @@ import { CompletionTriggerKind } from "typescript";
 import { getToken } from "./localStorageHelper";
 
 const config = {
-    baseURL: "http://localhost:8080",
+    baseURL: process.env.REACT_APP_API_ENDPOINT,
     headers: {
         "Content-type": "application/json"
     }
