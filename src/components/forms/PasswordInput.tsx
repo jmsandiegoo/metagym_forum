@@ -15,7 +15,7 @@ interface PasswordInputProps {
   name: string;
   label: string;
   validations?: {
-    [key: string]: (value: any) => boolean | string;
+    [key: string]: (...args: any[]) => boolean | string;
   };
 }
 

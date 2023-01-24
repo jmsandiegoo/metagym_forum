@@ -51,3 +51,13 @@ export const mapQueryString = (queryObj: QueryStringObject): string => {
 export const requiredStringValidate = (errorMessage: string) => {
     return (value: string) => value.trim().length > 0 || errorMessage;
 }
+
+export const isEmailValidate = (errorMessage: string) => {
+    return (value: string) => value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g) ? true : errorMessage;
+}
+
+export const isSameStringValidate = (compareValue: string, errorMessage: string) => {
+    return (value: string) => {
+        return value === compareValue || errorMessage;
+    }
+}

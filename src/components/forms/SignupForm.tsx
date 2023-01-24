@@ -17,6 +17,11 @@ import TextInput from "./TextInput";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { signup } from "../../store/authThunks";
 import { SignupRequest } from "../../types";
+import {
+  isEmailValidate,
+  isSameStringValidate,
+  requiredStringValidate,
+} from "../../utilities/helper";
 
 type SignupFormInput = { confirmPassword: string } & SignupRequest;
 
@@ -34,6 +39,8 @@ const SignupForm = () => {
       confirmPassword: "",
     },
   });
+
+  const passwordVal = methods.watch("password");
 
   const signupHandler: SubmitHandler<SignupFormInput> = async (
     data: SignupFormInput
@@ -78,22 +85,65 @@ const SignupForm = () => {
           </Box>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextInput name="firstName" label="Firstname" />
+              <TextInput
+                name="firstName"
+                label="Firstname"
+                validations={{
+                  required: requiredStringValidate("Firstname is required"),
+                }}
+              />
             </Grid>
             <Grid item xs={6}>
-              <TextInput name="lastName" label="Lastname" />
+              <TextInput
+                name="lastName"
+                label="Lastname"
+                validations={{
+                  required: requiredStringValidate("Lastname is required"),
+                }}
+              />
             </Grid>
             <Grid item xs={6}>
-              <TextInput name="username" label="Username" />
+              <TextInput
+                name="username"
+                label="Username"
+                validations={{
+                  required: requiredStringValidate("Username is required"),
+                }}
+              />
             </Grid>
             <Grid item xs={6}>
-              <TextInput name="email" label="Email" />
+              <TextInput
+                name="email"
+                label="Email"
+                validations={{
+                  required: requiredStringValidate("Email is required"),
+                  isEmail: isEmailValidate("Input provided is not an email"),
+                }}
+              />
             </Grid>
             <Grid item xs={12}>
-              <PasswordInput name="password" label="Password" />
+              <PasswordInput
+                name="password"
+                label="Password"
+                validations={{
+                  required: requiredStringValidate("Password is required"),
+                }}
+              />
             </Grid>
             <Grid item xs={12}>
-              <PasswordInput name="confirmPassword" label="Confirm Password" />
+              <PasswordInput
+                name="confirmPassword"
+                label="Confirm Password"
+                validations={{
+                  required: requiredStringValidate(
+                    "Confirm Password is required"
+                  ),
+                  isSame: isSameStringValidate(
+                    passwordVal,
+                    "Password mismatch please re-type"
+                  ),
+                }}
+              />
             </Grid>
           </Grid>
           <Box textAlign="center">
