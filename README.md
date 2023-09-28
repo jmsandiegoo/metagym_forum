@@ -4,7 +4,7 @@ MetaGym Web Forum (FrontEnd)
 
 ## Demo link:
 
-To be deployed soon.
+[Demo URL](https://metagym-web-forum-frontend.vercel.app/)
 
 ## Table of Content:
 
